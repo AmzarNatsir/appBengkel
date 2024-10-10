@@ -61,7 +61,7 @@
                 <i class="fa fa-ellipsis-h"></i>
                 </span>
                 <h4 class="text-section">Components</h4>
-            </li>
+            </li> --}}
             <li class="nav-item">
                 <a data-bs-toggle="collapse" href="#base">
                 <i class="fas fa-layer-group"></i>
@@ -100,7 +100,7 @@
                 </ul>
                 </div>
             </li>
-            <li class="nav-item">
+            {{-- <li class="nav-item">
                 <a data-bs-toggle="collapse" href="#submenu">
                 <i class="fas fa-bars"></i>
                 <p>User Management</p>
