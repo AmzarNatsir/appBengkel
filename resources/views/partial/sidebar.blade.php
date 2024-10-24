@@ -65,42 +65,64 @@
             <li class="nav-item">
                 <a data-bs-toggle="collapse" href="#base">
                 <i class="fas fa-layer-group"></i>
-                <p>Master Data</p>
+                <p>Common</p>
                 <span class="caret"></span>
                 </a>
                 <div class="collapse" id="base">
                 <ul class="nav nav-collapse">
                     <li class="nav-item">
-                    <a href="{{ url('masterData/departemen') }}"><span class="sub-item">Departemen</span></a>
+                    <a href="{{ route('brand.index') }}"><span class="sub-item">Brand</span></a>
                     </li>
                     <li class="nav-item">
-                    <a href="{{ url('masterData/jabatan') }}"><span class="sub-item">Jabatan</span></a>
+                    <a href="{{ route('model.index') }}"><span class="sub-item">Model</span></a>
                     </li>
                     <li class="nav-item">
-                    <a href="{{ url('golongan') }}"><span class="sub-item">Golongan</span></a>
+                    <a href="{{ route('type.index') }}"><span class="sub-item">Type</span></a>
                     </li>
                     <li class="nav-item">
-                    <a href="{{ url('pointOfHire') }}"><span class="sub-item">Point of Hire (POH)</span></a>
+                    <a href="{{ route('ccunit.index') }}"><span class="sub-item">CC Unit</span></a>
                     </li>
                     <li class="nav-item">
-                        <a href="{{ url('provinsi') }}"><span class="sub-item">Provinsi</span></a>
+                    <a href="{{ route('color.index') }}"><span class="sub-item">Color</span></a>
+                    </li>
+                    {{-- <li class="nav-item">
+                    <a href="{{ url('kabupaten') }}"><span class="sub-item">Group</span></a>
+                    </li> --}}
+                    <li class="nav-item">
+                    <a href="{{ route('jenis.index') }}"><span class="sub-item">Jenis</span></a>
                     </li>
                     <li class="nav-item">
-                    <a href="{{ url('kabupaten') }}"><span class="sub-item">Kabupaten/Kota</span></a>
-                    </li>
-                    <li class="nav-item">
-                    <a href="{{ url('kecamatan') }}"><span class="sub-item">Kecamatan</span></a>
-                    </li>
-                    <li class="nav-item">
-                    <a href="{{ url('kelurahan') }}"><span class="sub-item">Keluarahn</span></a>
-                    </li>
-                    <li class="nav-item">
-                    <a href="{{ url('dokumen') }}"><span class="sub-item">Dokumen</span></a>
+                    <a href="{{ route('satuan.index') }}"><span class="sub-item">Satuan</span></a>
                     </li>
                 </ul>
                 </div>
             </li>
-            {{-- <li class="nav-item">
+            <div class="dropdown-divider"></div>
+            <li class="nav-item {{ request()->routeIs('karyawan.*') ? 'active submenu' : '' }}">
+                <a href="{{ url('karyawan') }}">
+                <i class="fas fa-user"></i>
+                <p>Customer</p>
+                </a>
+            </li>
+            <li class="nav-item {{ request()->routeIs('karyawan.*') ? 'active submenu' : '' }}">
+                <a href="{{ url('karyawan') }}">
+                <i class="fas fa-user"></i>
+                <p>Mekanik</p>
+                </a>
+            </li>
+            <li class="nav-item {{ request()->routeIs('karyawan.*') ? 'active submenu' : '' }}">
+                <a href="{{ url('karyawan') }}">
+                <i class="fas fa-edit"></i>
+                <p>Parts</p>
+                </a>
+            </li>
+            <li class="nav-item {{ request()->routeIs('karyawan.*') ? 'active submenu' : '' }}">
+                <a href="{{ url('karyawan') }}">
+                <i class="fas fa-car"></i>
+                <p>Vehicle</p>
+                </a>
+            </li>
+            <li class="nav-item">
                 <a data-bs-toggle="collapse" href="#submenu">
                 <i class="fas fa-bars"></i>
                 <p>User Management</p>
@@ -115,6 +137,7 @@
                 </ul>
                 </div>
             </li>
+            {{--
             <div class="dropdown-divider"></div>
             <li class="nav-item {{ request()->routeIs('karyawan.*') ? 'active submenu' : '' }}">
                 <a href="{{ url('karyawan') }}">
