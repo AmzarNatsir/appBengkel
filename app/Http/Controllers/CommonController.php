@@ -49,9 +49,9 @@ class CommonController extends Controller
         if($query){
             $counter = $request->input('start') + 1;
             foreach($query as $r){
-                $btn = '<a class="btn btn-success btn-sm" href="'.url('common/brandShow',$r->id).'">Show</a>
-                  <a class="btn btn-primary btn-sm" href="'.url('common/brandEdit',$r->id).'">Edit</a>
-                   <button type="button" value='.$r->id.' class="btn btn-danger btn-sm" onclick="konfirmHapus(this)"> Delete</button>';
+                $btn = '<a class="btn btn-success btn-sm" href="'.url('common/brandShow',$r->id).'"><i class="fa fa-eye"></i></a>
+                  <a class="btn btn-primary btn-sm" href="'.url('common/brandEdit',$r->id).'"><i class="fa fa-edit"></i></a>
+                   <button type="button" value='.$r->id.' class="btn btn-danger btn-sm" onclick="konfirmHapus(this)"><i class="fa fa-times"></i></button>';
                 $Data['act'] = $btn;
                 $Data['id'] =  $r->id;
                 $Data['oid_brand'] =  $r->oid_brand;
@@ -173,9 +173,9 @@ class CommonController extends Controller
         if($query){
             $counter = $request->input('start') + 1;
             foreach($query as $r){
-                $btn = '<a class="btn btn-success btn-sm" href="'.url('common/modelShow',$r->id).'">Show</a>
-                  <a class="btn btn-primary btn-sm" href="'.url('common/modelEdit',$r->id).'">Edit</a>
-                   <button type="button" value='.$r->id.' class="btn btn-danger btn-sm" onclick="konfirmHapus(this)"> Delete</button>';
+                $btn = '<a class="btn btn-success btn-sm" href="'.url('common/modelShow',$r->id).'"><i class="fa fa-eye"></i></a>
+                  <a class="btn btn-primary btn-sm" href="'.url('common/modelEdit',$r->id).'"><i class="fa fa-edit"></i></a>
+                   <button type="button" value='.$r->id.' class="btn btn-danger btn-sm" onclick="konfirmHapus(this)"><i class="fa fa-times"></i></button>';
                 $Data['act'] = $btn;
                 $Data['id'] =  $r->id;
                 $Data['oid_model'] =  $r->oid_model;
@@ -804,7 +804,7 @@ class CommonController extends Controller
             foreach($query as $r){
                 $btn = '<a class="btn btn-success btn-sm" href="'.url('common/satuanShow',$r->id).'"><i class="fa fa-eye"></i></a>
                   <a class="btn btn-primary btn-sm" href="'.url('common/satuanEdit',$r->id).'"><i class="fa fa-edit"></i></a>
-                   <button type="button" value='.$r->id.' class="btn btn-danger btn-sm" onclick="konfirmHapus(this)"> <i class="fa fa-times"></i></button>';
+                   <button type="button" value='.$r->id.' class="btn btn-danger btn-sm" onclick="konfirmHapus(this)"><i class="fa fa-times"></i></button>';
                 $Data['act'] = $btn;
                 $Data['id'] =  $r->id;
                 $Data['oid_satuan'] =  $r->oid_satuan;

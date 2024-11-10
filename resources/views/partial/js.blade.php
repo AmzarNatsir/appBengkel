@@ -36,6 +36,8 @@
 <!-- Kaiadmin DEMO methods, don't include it in your project! -->
 <script src="{{ asset('assets/js/setting-demo2.js') }}"></script>
 <script src="{{ asset('assets/plugins/fancybox/jquery.fancybox.min.js') }}"></script>
+<script src="{{ asset('assets/plugins/number/jquery.number.js') }}"></script>
+
 <!-- Datatables -->
 {{-- <script src="https://cdn.datatables.net/2.0.7/js/dataTables.js"></script>
 <script src="https://cdn.datatables.net/responsive/3.0.2/js/dataTables.responsive.js"></script>
@@ -47,4 +49,12 @@
 <script src="https://cdn.datatables.net/select/2.0.2/js/select.dataTables.js"></script>
 <script src="https://editor.datatables.net/extensions/Editor/js/dataTables.editor.js"></script>
 <script src="https://editor.datatables.net/extensions/Editor/js/editor.dataTables.js"></script> --}}
+
+{{-- <script type="text/javascript">
+    $(document).ready(function()
+    {
+        $('.angka').number( true, 0 );
+        $('.angka_dec').number( true, 2);
+    });
+</script> --}}
 

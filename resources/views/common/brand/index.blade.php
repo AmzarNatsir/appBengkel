@@ -23,7 +23,7 @@
                 <th width="5%">No</th>
                 <th width="10%">Oid</th>
                 <th>Brand Name</th>
-                <th width="25%">Action</th>
+                <th width="15%">Action</th>
             </tr>
         </thead>
         <tbody></tbody>

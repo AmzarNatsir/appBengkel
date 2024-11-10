@@ -4,7 +4,7 @@
       <div class="logo-header" data-background-color="dark">
         <a href="index.html" class="logo">
           <img
-            src="assets/img/kaiadmin/logo_light.svg"
+            src="{{ asset('assets/img/kaiadmin/logo_light.svg') }}"
             alt="navbar brand"
             class="navbar-brand"
             height="20"
@@ -70,38 +70,47 @@
                 </a>
                 <div class="collapse" id="base">
                 <ul class="nav nav-collapse">
-                    <li class="nav-item">
+                    <li class="nav-item {{ request()->routeIs('brand.*') ? 'active submenu' : '' }}">
                     <a href="{{ route('brand.index') }}"><span class="sub-item">Brand</span></a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item {{ request()->routeIs('model.*') ? 'active submenu' : '' }}">
                     <a href="{{ route('model.index') }}"><span class="sub-item">Model</span></a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item {{ request()->routeIs('type.*') ? 'active submenu' : '' }}">
                     <a href="{{ route('type.index') }}"><span class="sub-item">Type</span></a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item {{ request()->routeIs('ccunit.*') ? 'active submenu' : '' }}">
                     <a href="{{ route('ccunit.index') }}"><span class="sub-item">CC Unit</span></a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item {{ request()->routeIs('color.*') ? 'active submenu' : '' }}">
                     <a href="{{ route('color.index') }}"><span class="sub-item">Color</span></a>
                     </li>
-                    {{-- <li class="nav-item">
-                    <a href="{{ url('kabupaten') }}"><span class="sub-item">Group</span></a>
-                    </li> --}}
-                    <li class="nav-item">
+                    <li class="nav-item {{ request()->routeIs('jenis.*') ? 'active submenu' : '' }}">
                     <a href="{{ route('jenis.index') }}"><span class="sub-item">Jenis</span></a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item {{ request()->routeIs('satuan.*') ? 'active submenu' : '' }}">
                     <a href="{{ route('satuan.index') }}"><span class="sub-item">Satuan</span></a>
                     </li>
                 </ul>
                 </div>
             </li>
             <div class="dropdown-divider"></div>
-            <li class="nav-item {{ request()->routeIs('karyawan.*') ? 'active submenu' : '' }}">
-                <a href="{{ url('karyawan') }}">
+            <li class="nav-item {{ request()->routeIs('customer.*') ? 'active submenu' : '' }}">
+                <a href="{{ route('customer.index') }}">
                 <i class="fas fa-user"></i>
                 <p>Customer</p>
+                </a>
+            </li>
+            <li class="nav-item {{ request()->routeIs('supplier.*') ? 'active submenu' : '' }}">
+                <a href="{{ route('supplier.index') }}">
+                <i class="fas fa-user"></i>
+                <p>Supplier</p>
+                </a>
+            </li>
+            <li class="nav-item {{ request()->routeIs('vehicle.*') ? 'active submenu' : '' }}">
+                <a href="{{ route('vehicle.index') }}">
+                <i class="fas fa-car"></i>
+                <p>Vehicle</p>
                 </a>
             </li>
             <li class="nav-item {{ request()->routeIs('karyawan.*') ? 'active submenu' : '' }}">
@@ -110,18 +119,34 @@
                 <p>Mekanik</p>
                 </a>
             </li>
-            <li class="nav-item {{ request()->routeIs('karyawan.*') ? 'active submenu' : '' }}">
-                <a href="{{ url('karyawan') }}">
+            <li class="nav-item {{ request()->routeIs('parts.*') ? 'active submenu' : '' }}">
+                <a href="{{ url('parts') }}">
                 <i class="fas fa-edit"></i>
                 <p>Parts</p>
                 </a>
             </li>
-            <li class="nav-item {{ request()->routeIs('karyawan.*') ? 'active submenu' : '' }}">
-                <a href="{{ url('karyawan') }}">
-                <i class="fas fa-car"></i>
-                <p>Vehicle</p>
+            {{-- purchase_order --}}
+            <li class="nav-item {{ request()->routeIs('purchaseOrder.*') ? 'active submenu' : '' }}">
+                <a data-bs-toggle="collapse" href="#submenu">
+                <i class="fas fa-check-double"></i>
+                <p>Purchase Order</p>
+                <span class="caret"></span>
                 </a>
+                <div class="collapse" id="submenu">
+                <ul class="nav nav-collapse">
+                    <li class="nav-item {{ request()->routeIs('purchaseOrder.create') ? 'active submenu' : '' }}">
+                        <a href="{{ route('purchaseOrder.create') }}"><span class="sub-item">New</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ url('users') }}"><span class="sub-item">List</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ url('users') }}"><span class="sub-item">Summary</span></a>
+                    </li>
+                </ul>
+                </div>
             </li>
+
             <li class="nav-item">
                 <a data-bs-toggle="collapse" href="#submenu">
                 <i class="fas fa-bars"></i>

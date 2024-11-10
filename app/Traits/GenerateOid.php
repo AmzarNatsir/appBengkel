@@ -9,6 +9,11 @@ use App\Models\common\JenisModel;
 use App\Models\common\ModelBrandModel;
 use App\Models\common\SatuanModel;
 use App\Models\common\TypeModel;
+use App\Models\CustomerModel;
+use App\Models\PartsModel;
+use App\Models\PurchaseOrderModel;
+use App\Models\SupplierModel;
+use App\Models\VehicleModel;
 use PHPUnit\Event\TypeMap;
 
 trait GenerateOid
@@ -96,6 +101,66 @@ trait GenerateOid
                 $oidNew = $kode.sprintf('%03s', $nom);
             } else {
                 $no_urut_baru = substr($result->oid_satuan, 3, 3)+1;
+                $oidNew = $kode.sprintf('%03s', $no_urut_baru);
+            }
+        }
+        if($common=='customer')
+        {
+            $kode = "CS-";
+            $nom = 1;
+            $result = CustomerModel::orderBy('created_at', 'desc')->first();
+            if(empty($result->oid_customer)) {
+                $oidNew = $kode.sprintf('%03s', $nom);
+            } else {
+                $no_urut_baru = substr($result->oid_customer, 3, 3)+1;
+                $oidNew = $kode.sprintf('%03s', $no_urut_baru);
+            }
+        }
+        if($common=='supplier')
+        {
+            $kode = "SP-";
+            $nom = 1;
+            $result = SupplierModel::orderBy('created_at', 'desc')->first();
+            if(empty($result->oid_supplier)) {
+                $oidNew = $kode.sprintf('%03s', $nom);
+            } else {
+                $no_urut_baru = substr($result->oid_supplier, 3, 3)+1;
+                $oidNew = $kode.sprintf('%03s', $no_urut_baru);
+            }
+        }
+        if($common=='vehicle')
+        {
+            $kode = "VH-";
+            $nom = 1;
+            $result = VehicleModel::orderBy('created_at', 'desc')->first();
+            if(empty($result->oid_vehicle)) {
+                $oidNew = $kode.sprintf('%03s', $nom);
+            } else {
+                $no_urut_baru = substr($result->oid_vehicle, 3, 3)+1;
+                $oidNew = $kode.sprintf('%03s', $no_urut_baru);
+            }
+        }
+        if($common=='part')
+        {
+            $kode = "PR-";
+            $nom = 1;
+            $result = PartsModel::orderBy('created_at', 'desc')->first();
+            if(empty($result->oid_part)) {
+                $oidNew = $kode.sprintf('%03s', $nom);
+            } else {
+                $no_urut_baru = substr($result->oid_part, 3, 3)+1;
+                $oidNew = $kode.sprintf('%03s', $no_urut_baru);
+            }
+        }
+        if($common=='po')
+        {
+            $kode = "PO-";
+            $nom = 1;
+            $result = PurchaseOrderModel::orderBy('created_at', 'desc')->first();
+            if(empty($result->po_number)) {
+                $oidNew = $kode.sprintf('%03s', $nom);
+            } else {
+                $no_urut_baru = substr($result->po_number, 3, 3)+1;
                 $oidNew = $kode.sprintf('%03s', $no_urut_baru);
             }
         }

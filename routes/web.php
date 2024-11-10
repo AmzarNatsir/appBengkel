@@ -1,6 +1,11 @@
 <?php
 
 use App\Http\Controllers\CommonController;
+use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\PartsController;
+use App\Http\Controllers\POController;
+use App\Http\Controllers\SupplierController;
+use App\Http\Controllers\VehicleController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -82,5 +87,62 @@ Route::middleware('auth')->group(function ()
          //json
          Route::get('getJsonBrand', [CommonController::class, 'jsonBrand'])->name('json.brand');
          Route::post('getJsonModel', [CommonController::class, 'jsonModel'])->name('json.model');
+
+     });
+    //customer
+     Route::group(["prefix" => "customer"], function(){
+        Route::get('/', [CustomerController::class, 'index'])->name('customer.index');
+        Route::get('data', [CustomerController::class, 'data'])->name('customer.data');
+        Route::get('create', [CustomerController::class, 'create'])->name('customer.create');
+        Route::post('store', [CustomerController::class, 'store'])->name('customer.store');
+        Route::get('show/{id}', [CustomerController::class, 'show']);
+        Route::get('edit/{id}', [CustomerController::class, 'edit']);
+        Route::put('update/{id}', [CustomerController::class, 'update']);
+        Route::get('destroy/{id}', [CustomerController::class, 'destroy']);
+     });
+
+     //supplier
+     Route::group(["prefix" => "supplier"], function(){
+        Route::get('/', [SupplierController::class, 'index'])->name('supplier.index');
+        Route::get('data', [SupplierController::class, 'data'])->name('supplier.data');
+        Route::get('create', [SupplierController::class, 'create'])->name('supplier.create');
+        Route::post('store', [SupplierController::class, 'store'])->name('supplier.store');
+        Route::get('show/{id}', [SupplierController::class, 'show']);
+        Route::get('edit/{id}', [SupplierController::class, 'edit']);
+        Route::put('update/{id}', [SupplierController::class, 'update']);
+        Route::get('destroy/{id}', [SupplierController::class, 'destroy']);
+     });
+
+     //kendaraan
+     Route::group(["prefix" => "vehicle"], function(){
+        Route::get('/', [VehicleController::class, 'index'])->name('vehicle.index');
+        Route::get('data', [VehicleController::class, 'data'])->name('vehicle.data');
+        Route::get('create', [VehicleController::class, 'create'])->name('vehicle.create');
+        Route::post('store', [VehicleController::class, 'store'])->name('vehicle.store');
+        Route::get('show/{id}', [VehicleController::class, 'show']);
+        Route::get('edit/{id}', [VehicleController::class, 'edit']);
+        Route::put('update/{id}', [VehicleController::class, 'update']);
+        Route::get('destroy/{id}', [VehicleController::class, 'destroy']);
+     });
+     //parts
+     Route::group(["prefix" => "parts"], function(){
+        Route::get('/', [PartsController::class, 'index'])->name('parts.index');
+        Route::get('data', [PartsController::class, 'data'])->name('parts.data');
+        Route::get('create', [PartsController::class, 'create'])->name('parts.create');
+        Route::post('store', [PartsController::class, 'store'])->name('parts.store');
+        Route::get('show/{id}', [PartsController::class, 'show']);
+        Route::get('edit/{id}', [PartsController::class, 'edit']);
+        Route::put('update/{id}', [PartsController::class, 'update']);
+        Route::get('destroy/{id}', [PartsController::class, 'destroy']);
+     });
+
+     //Purchase Order
+     Route::group(['prefix' => 'purchase_order'], function(){
+        //list
+        Route::get('list', [POController::class, 'index'])->name('purchaseOrder.index');
+        //new
+        Route::get('create', [POController::class, 'create'])->name('purchaseOrder.create');
+        Route::get('newItems/{id}', [POController::class, 'new_items']);
+        Route::post('headPOStore', [POController::class, 'store_po'])->name('po.store');
      });
 });

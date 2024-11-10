@@ -9,11 +9,11 @@
     @endif
     <div class="d-flex align-items-left align-items-md-center flex-column flex-md-row pt-2 pb-4">
         <div>
-            <h3 class="fw-bold mb-3">Common</h3>
-            <h6 class="op-7 mb-2">Common Model</h6>
+            <h3 class="fw-bold mb-3">Vehicle</h3>
+            <h6 class="op-7 mb-2">List Vehicle</h6>
         </div>
         <div class="ms-md-auto py-2 py-md-0">
-            <a href="{{ route('model.create') }}" class="btn btn-primary btn-round">Add New</a>
+            <a href="{{ route('vehicle.create') }}" class="btn btn-primary btn-round">Add New</a>
         </div>
     </div>
     <div class="row table-responsive">
@@ -22,8 +22,12 @@
             <tr>
                 <th width="5%">No</th>
                 <th width="10%">Oid</th>
-                <th>Model Name</th>
-                <th>Brand Name</th>
+                <th width="10%">Plat Number</th>
+                <th width="20%">Unit</th>
+                <th width="10%">Jenis</th>
+                <th width="10%">Color</th>
+                <th width="10%">Year</th>
+                <th>Customer</th>
                 <th width="15%">Action</th>
             </tr>
         </thead>
@@ -35,15 +39,19 @@
     $(document).ready(function () {
         $('.list_data').DataTable().destroy();
         $(".list_data").DataTable({
-            ajax: "{{ route('model.data') }}",
+            ajax: "{{ route('vehicle.data') }}",
             processing: true,
             serverSide: true,
             autoWidth: true,
             columns: [
                 { data: 'no' },
-                { data: 'oid_model' },
-                { data: 'model_name' },
-                { data: 'brand_name' },
+                { data: 'oid_vehicle' },
+                { data: 'plat_number' },
+                { data: 'unit' },
+                { data: 'jenis' },
+                { data: 'color' },
+                { data: 'year' },
+                { data: 'customer' },
                 { data: 'act' }
             ],
             responsive: true,
@@ -64,7 +72,7 @@
             if (willDelete)
             {
                 $.ajax({
-                    url: "{{ url('common/modelDestroy') }}/"+$(el).val(),
+                    url: "{{ url('vehicle/destroy') }}/"+$(el).val(),
                     type: "GET",
                     success:function(response){
                         swal('Success! The selected data has been successfully deleted!', {
