@@ -24,4 +24,9 @@ class PurchaseOrderModel extends Model
         'user_up',
         'user_del'
     ];
+
+    public function getSupplier()
+    {
+        return $this->belongsTo(SupplierModel::class, 'id_supplier', 'id');
+    }
 }

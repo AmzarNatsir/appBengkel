@@ -25,6 +25,8 @@ class PartsModel extends Model
         'stok_akhir',
         'harga_beli',
         'harga_jual',
+        'deskripsi',
+        'gambar',
         'crud',
         'user_at',
         'user_up',

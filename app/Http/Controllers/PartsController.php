@@ -8,8 +8,11 @@ use App\Models\common\SatuanModel;
 use App\Models\PartsModel;
 use App\Traits\Converts;
 use App\Traits\GenerateOid;
+use App\Traits\HasUpload;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Throwable;
 
@@ -17,6 +20,7 @@ class PartsController extends Controller
 {
     use GenerateOid;
     use Converts;
+    use HasUpload;
     protected $dateTimeInsert;
 
     function __construct()
@@ -97,6 +101,13 @@ class PartsController extends Controller
             {
                 return redirect()->back()->withInput()->withErrors($validated);
             } else {
+                $filePart = NULL;
+                if($request->hasFile('inpFileImage'))
+                {
+                    $path = storage_path("app/public/parts");
+                    $storepath = "public/parts";
+                    $filePart = HasUpload::uploadImage($request, $path, $storepath, 'parts');
+                }
                 $data = [
                     'oid_part' => GenerateOid::genOid('part'),
                     'part_name' => $request->part_name,
@@ -108,6 +119,8 @@ class PartsController extends Controller
                     'harga_beli' => Converts::convert_money_to_double($request->inp_harga_beli),
                     'harga_jual' => Converts::convert_money_to_double($request->inp_harga_jual),
                     'stok_awal' => $request->inp_stok_awal,
+                    'deskripsi' => $request->inpDeskripsi,
+                    'gambar' => $filePart,
                     'crud' => "I",
                     'user_at' => auth()->user()->id,
                     'created_at' => $this->dateTimeInsert
@@ -155,6 +168,17 @@ class PartsController extends Controller
             {
                 return redirect()->back()->withInput()->withErrors($validated);
             } else {
+                $filePart = $request->tempFileImage;
+                if($request->hasFile('inpFileImage'))
+                {
+                    if(!empty($request->tempFileImage)) {
+                        $this->del_image_folder($id);
+                    }
+                    $path = storage_path("app/public/parts");
+                    $storepath = "public/parts";
+                    $filePart = HasUpload::uploadImage($request, $path, $storepath, 'parts');
+                }
+
                 $data = [
                     'part_name' => $request->part_name,
                     'id_satuan' => $request->satuan_select,
@@ -165,6 +189,8 @@ class PartsController extends Controller
                     'harga_beli' => Converts::convert_money_to_double($request->inp_harga_beli),
                     'harga_jual' => Converts::convert_money_to_double($request->inp_harga_jual),
                     'stok_awal' => $request->inp_stok_awal,
+                    'deskripsi' => $request->inpDeskripsi,
+                    'gambar' => $filePart,
                     'crud' => "U",
                     'user_up' => auth()->user()->id,
                     'updated_at' => $this->dateTimeInsert
@@ -191,6 +217,16 @@ class PartsController extends Controller
         return response()->json([
             'success' => true
         ]);
+    }
+
+    public function del_image_folder($id)
+    {
+        $resfile = PartsModel::where('id', $id)->first();
+        $filename = $resfile->gambar;
+        $image_path = storage_path('app/public/parts/'.$filename);
+        if(File::exists($image_path)) {
+            File::delete($image_path);
+        }
     }
 
     function roles($request)

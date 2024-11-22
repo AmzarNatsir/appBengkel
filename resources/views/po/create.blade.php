@@ -3,46 +3,46 @@
 <div class="page-inner">
     <div class="d-flex align-items-left align-items-md-center flex-column flex-md-row pt-2 pb-4">
         <div>
-            <h3 class="fw-bold mb-3">Purchase Order</h3>
-            <h6 class="op-7 mb-2">New Purchase Order</h6>
+            <h3 class="fw-bold mb-3">Pemesanan Barang</h3>
+            <h6 class="op-7 mb-2">Baut Baru</h6>
         </div>
         <div class="ms-md-auto py-2 py-md-0">
-            <a href="{{ route('purchaseOrder.index') }}" class="btn btn-primary btn-round">Refresh</a>
+            <a href="{{ route('pemesanan.baru') }}" class="btn btn-primary btn-round"><i class="fa fa-spinner"></i> Refresh</a>
         </div>
     </div>
     @include('additional.alert')
-    <form action="{{ route('po.store') }}" method="POST">
+    <form action="{{ route('pemesanan.store') }}" method="POST">
     @csrf
     <div class="row">
         <div class="col-lg-4">
             <div class="card">
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-md-12 col-lg-6">
+                        <div class="col-md-12 col-lg-6 p-0">
                             <div class="form-group">
-                                <label for="po_date">PO Date</label>
-                                <input type="date" class="form-control form-control-sm  @error('po_date') is-invalid @enderror" name="po_date" id="po_date">
+                                <label for="po_date">Tanggal Pesan</label>
+                                <input type="date" class="form-control form-control-sm  @error('po_date') is-invalid @enderror" name="po_date" id="po_date" value="{{ Old('po_date') }}">
                                 @if ($errors->has('po_date'))
                                 <div class="invalid-feedback">{{ $errors->first('po_date') }}</div>
                                 @endif
                             </div>
                         </div>
-                        <div class="col-md-12 col-lg-6">
+                        <div class="col-md-12 col-lg-6 p-0">
                             <div class="form-group">
-                                <label for="po_delivery_date">Delivery Date</label>
-                                <input type="date" class="form-control form-control-sm  @error('po_delivery_date') is-invalid @enderror" name="po_delivery_date" id="po_delivery_date">
+                                <label for="po_delivery_date">Tanggal Kirim</label>
+                                <input type="date" class="form-control form-control-sm  @error('po_delivery_date') is-invalid @enderror" name="po_delivery_date" id="po_delivery_date" value="{{ Old('po_delivery_date') }}">
                                 @if ($errors->has('po_delivery_date'))
                                 <div class="invalid-feedback">{{ $errors->first('po_delivery_date') }}</div>
                                 @endif
                             </div>
                         </div>
-                        <div class="col-md-12 col-lg-12">
+                        <div class="col-md-12 col-lg-12 p-0">
                             <div class="form-group">
                                 <label for="supplier_select">Supplier</label>
                                 <select class="form-select @error('supplier_select') is-invalid @enderror" name="supplier_select" id="supplier_select" style="width: 100%">
                                     <option value=""></option>
                                     @foreach ($list_supplier as $supplier)
-                                    <option value="{{ $supplier->id }}">{{ $supplier->oid_suppier }} {{ $supplier->supplier_name }}</option>
+                                    <option value="{{ $supplier->id }}" {{ (Old('supplier_select')==$supplier->id) ? "selected" : "" }}>{{ $supplier->oid_suppier }} {{ $supplier->supplier_name }}</option>
                                     @endforeach
                                 </select>
                                 @if ($errors->has('supplier_select'))
@@ -52,18 +52,18 @@
                         </div>
 
 
-                        <div class="col-md-12 col-lg-12">
+                        <div class="col-md-12 col-lg-12 p-0">
                             <div class="form-group">
-                                <label for="inp_remark">Remarks</label>
-                                <input type="text" class="form-control form-control-sm @error('inp_remark') is-invalid @enderror" name="inp_remark" id="inp_remark" maxlength="100">
+                                <label for="inp_remark">Keterangan</label>
+                                <input type="text" class="form-control form-control-sm @error('inp_remark') is-invalid @enderror" name="inp_remark" id="inp_remark" maxlength="100" value="{{ Old('inp_remark') }}">
                                 @if ($errors->has('inp_remark'))
                                 <div class="invalid-feedback">{{ $errors->first('inp_remark') }}</div>
                                 @endif
                             </div>
                         </div>
                     </div>
-                    <div class="card-action">
-                        <button type="submit" class="btn btn-success">Submit</button>
+                    <div class="card-action p-0 mt-3">
+                        <button type="submit" class="btn btn-success btn-round">Submit</button>
                         <span class="badge badge-danger">* Submit untuk melanjutkan penentuan item pemesanan</span>
                     </div>
                 </div>
@@ -83,47 +83,6 @@
         });
         $(".angka").number( true, 0);
     });
-    // var addRow = function()
-    // {
-    //     // alert("hmmmm");
-    //     var barisKe = totalRow();
-    //     $.ajax({
-    //         headers : {
-    //             'X-CSRF-TOKEN' : '<?php echo csrf_token() ?>'
-    //         },
-    //         url: "{{ url('purchase_order/newItems') }}",
-    //         contentType: "application/json",
-    //         type: "POST",
-    //         dataType: "json",
-    //         // data: JSON.stringify(obj),
-    //         success: function( response )
-    //         {
-    //             var content_item = '';
-    //             content_item = '<div class="form-group row"><div class="col-sm-8"><select class="form-control select2bs4" name="selBarang[]" id="selBarang'+barisKe()+'" data-placeholder="-- Pilihan" style="width: 100%;" required><option></option>';
-    //             $.each(response.data.items, function(key, dataItems) {
-    //                 content_item += '<option value="'+dataItems.id+'">'+dataItems.oid_part+' | '+ dataItems.part_name +' </option>';
-    //             });
-    //             content_item += '</select></div>';
-    //             $(".item_rows").append(content_item);
-    //             $('.angka').number( true, 0 );
-    //             $('select').last().select2({
-    //                 theme: 'classic',
-    //                 placeholder: "Select Items",
-    //                 allowClear: true,
-    //             });
-
-    //             // $(".item_rows");
-    //         }
-    //     });
-    // }
-    // function totalRow()
-    // {
-    //     var total = 1;
-    //     $.each($('select[name="items_select[]"]'),function(key, value){
-    //         total++;
-    //     });
-    //     return total;
-    // }
 </script>
 @endsection
 

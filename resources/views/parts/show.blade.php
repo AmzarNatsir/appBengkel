@@ -11,20 +11,20 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-7">
             <div class="card">
                 <div class="card-header">
                     <div class="card-title">Detail Part</div>
                 </div>
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-md-12 col-lg-5">
+                        <div class="col-md-12 col-lg-12">
                             <div class="form-group">
                                 <label for="part_name">Part Name</label>
                                 <input type="text" class="form-control form-control-sm" name="part_name" id="part_name" value="{{ $main->part_name }}" disabled>
                             </div>
                         </div>
-                        <div class="col-md-12 col-lg-2">
+                        <div class="col-md-12 col-lg-4">
                             <div class="form-group">
                                 <label for="satuan_select">Satuan</label>
                                 <select class="form-select" name="satuan_select" id="satuan_select" disabled>
@@ -35,7 +35,7 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-12 col-lg-2">
+                        <div class="col-md-12 col-lg-4">
                             <div class="form-group">
                                 <label for="jenis_select">Jenis</label>
                                 <select class="form-select" name="jenis_select" id="jenis_select" disabled>
@@ -46,7 +46,7 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-12 col-lg-3">
+                        <div class="col-md-12 col-lg-4">
                             <div class="form-group">
                                 <label for="brand_select">Brand</label>
                                 <select class="form-select" name="brand_select" id="brand_select" disabled>
@@ -57,6 +57,9 @@
                                 </select>
                             </div>
                         </div>
+                    </div>
+                    <hr>
+                    <div class="row">
                         <div class="col-md-12 col-lg-3">
                             <div class="form-group">
                                 <label for="inp_stok_awal">Stok Awal</label>
@@ -80,6 +83,31 @@
                                 <label for="inp_harga_jual">Harga Jual</label>
                                 <input type="text" class="form-control form-control-sm angka" name="inp_harga_jual" id="inp_harga_jual" value="{{ $main->harga_jual }}" style="text-align: right" disabled>
                             </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-5">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">Description</div>
+                </div>
+                <div class="card-body">
+                    <p>{{ $main->deskripsi }}</p>
+                </div>
+                <div class="card-header">
+                    <div class="card-title">Image</div>
+                </div>
+                <div class="card-body">
+                    <div class="form-group row">
+                        <div class="col-sm-12" style="text-align: center">
+                            @if(empty($main->gambar))
+                                <img id="preview_upload" class="justify-content-center" style="width: 50%; height: auto;">
+                            @else
+                                <img id="preview_upload" src="{{ url(Storage::url('parts/'.$main->gambar)) }}" class="justify-content-center" style="width: 50%; height: auto;">
+                            @endif
+
                         </div>
                     </div>
                 </div>

@@ -125,20 +125,20 @@
                 <p>Parts</p>
                 </a>
             </li>
-            {{-- purchase_order --}}
-            <li class="nav-item {{ request()->routeIs('purchaseOrder.*') ? 'active submenu' : '' }}">
-                <a data-bs-toggle="collapse" href="#submenu">
+            {{-- purchase_order / pemesanan --}}
+            <li class="nav-item {{ request()->routeIs('pemesanan.*') ? 'active submenu' : '' }}">
+                <a data-bs-toggle="collapse" href="#submenu_pemesanan">
                 <i class="fas fa-check-double"></i>
-                <p>Purchase Order</p>
+                <p>Pemesanan Barang</p>
                 <span class="caret"></span>
                 </a>
-                <div class="collapse" id="submenu">
+                <div class="collapse" id="submenu_pemesanan">
                 <ul class="nav nav-collapse">
-                    <li class="nav-item {{ request()->routeIs('purchaseOrder.create') ? 'active submenu' : '' }}">
-                        <a href="{{ route('purchaseOrder.create') }}"><span class="sub-item">New</span></a>
+                    <li class="nav-item {{ request()->routeIs('pemesanan.baru') ? 'active submenu' : '' }}">
+                        <a href="{{ route('pemesanan.baru') }}"><span class="sub-item">Baru</span></a>
                     </li>
-                    <li class="nav-item">
-                        <a href="{{ url('users') }}"><span class="sub-item">List</span></a>
+                    <li class="nav-item {{ request()->routeIs('pemesanan.index') ? 'active submenu' : '' }}">
+                        <a href="{{ route('pemesanan.index') }}"><span class="sub-item">Daftar</span></a>
                     </li>
                     <li class="nav-item">
                         <a href="{{ url('users') }}"><span class="sub-item">Summary</span></a>
@@ -146,7 +146,27 @@
                 </ul>
                 </div>
             </li>
-
+            {{-- penerimaan barang --}}
+            <li class="nav-item">
+                <a data-bs-toggle="collapse" href="#submenu_penerimaan">
+                <i class="fas fa-receipt"></i>
+                <p>Penerimaan Barang</p>
+                <span class="caret"></span>
+                </a>
+                <div class="collapse" id="submenu_penerimaan">
+                <ul class="nav nav-collapse">
+                    <li class="nav-item">
+                        <a href="#"><span class="sub-item">Baru</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#"><span class="sub-item">Daftar</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ url('users') }}"><span class="sub-item">Summary</span></a>
+                    </li>
+                </ul>
+                </div>
+            </li>
             <li class="nav-item">
                 <a data-bs-toggle="collapse" href="#submenu">
                 <i class="fas fa-bars"></i>

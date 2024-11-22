@@ -137,12 +137,19 @@ Route::middleware('auth')->group(function ()
      });
 
      //Purchase Order
-     Route::group(['prefix' => 'purchase_order'], function(){
+     Route::group(['prefix' => 'pemesanan'], function(){
         //list
-        Route::get('list', [POController::class, 'index'])->name('purchaseOrder.index');
+        Route::get('daftar', [POController::class, 'index'])->name('pemesanan.index');
+        Route::get('getData', [POController::class, 'getData'])->name('pemesanan.data');
         //new
-        Route::get('create', [POController::class, 'create'])->name('purchaseOrder.create');
-        Route::get('newItems/{id}', [POController::class, 'new_items']);
-        Route::post('headPOStore', [POController::class, 'store_po'])->name('po.store');
+        Route::get('baru', [POController::class, 'create'])->name('pemesanan.baru');
+        Route::get('tambahItem/{id}', [POController::class, 'new_items']);
+        Route::post('detailItem', [POController::class, 'getDetailItem']);
+        Route::post('headPOStore', [POController::class, 'store_po'])->name('pemesanan.store');
+        Route::post('detailPOStore', [POController::class, 'store_detail_po'])->name('pemesananDetail.store');
+        Route::get('editItem/{id}', [POController::class, 'edit_item_po']);
+        Route::put('updateItem/{id}', [POController::class, 'update_item_po']);
+        Route::get('deleteDetail/{id}', [POController::class, 'delete_detail_po']);
+
      });
 });
