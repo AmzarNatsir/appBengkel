@@ -3,6 +3,7 @@
 use App\Http\Controllers\CommonController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\PartsController;
+use App\Http\Controllers\PenerimaanController;
 use App\Http\Controllers\POController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\VehicleController;
@@ -151,5 +152,11 @@ Route::middleware('auth')->group(function ()
         Route::put('updateItem/{id}', [POController::class, 'update_item_po']);
         Route::get('deleteDetail/{id}', [POController::class, 'delete_detail_po']);
 
+     });
+     //penerimaan
+     Route::group(['prefix' => 'penerimaan'], function(){
+        Route::get('baru', [PenerimaanController::class, 'baru'])->name('penerimaan.baru');
+        Route::post('getPO', [PenerimaanController::class, 'getPO'])->name('penerimaan.get_po');
+        Route::post('store', [PenerimaanController::class, 'store'])->name('penerimaan.store');
      });
 });

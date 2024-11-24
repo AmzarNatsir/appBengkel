@@ -156,7 +156,7 @@
                 <div class="collapse" id="submenu_penerimaan">
                 <ul class="nav nav-collapse">
                     <li class="nav-item">
-                        <a href="#"><span class="sub-item">Baru</span></a>
+                        <a href="{{ route('penerimaan.baru') }}"><span class="sub-item">Baru</span></a>
                     </li>
                     <li class="nav-item">
                         <a href="#"><span class="sub-item">Daftar</span></a>

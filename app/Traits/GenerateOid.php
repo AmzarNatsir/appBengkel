@@ -12,6 +12,7 @@ use App\Models\common\TypeModel;
 use App\Models\CustomerModel;
 use App\Models\PartsModel;
 use App\Models\PurchaseOrderModel;
+use App\Models\ReceiveModel;
 use App\Models\SupplierModel;
 use App\Models\VehicleModel;
 use PHPUnit\Event\TypeMap;
@@ -161,6 +162,18 @@ trait GenerateOid
                 $oidNew = $kode.sprintf('%03s', $nom);
             } else {
                 $no_urut_baru = substr($result->po_number, 3, 3)+1;
+                $oidNew = $kode.sprintf('%03s', $no_urut_baru);
+            }
+        }
+        if($common=='receive')
+        {
+            $kode = "RV-";
+            $nom = 1;
+            $result = ReceiveModel::orderBy('created_at', 'desc')->first();
+            if(empty($result->nomor_receive)) {
+                $oidNew = $kode.sprintf('%03s', $nom);
+            } else {
+                $no_urut_baru = substr($result->nomor_receive, 3, 3)+1;
                 $oidNew = $kode.sprintf('%03s', $no_urut_baru);
             }
         }
