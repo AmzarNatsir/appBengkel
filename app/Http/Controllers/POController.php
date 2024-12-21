@@ -8,6 +8,7 @@ use App\Models\PurchaseOrderModel;
 use App\Models\SupplierModel;
 use App\Traits\Converts;
 use App\Traits\GenerateOid;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -52,12 +53,12 @@ class POController extends Controller
         if($query){
             $counter = $request->input('start') + 1;
             foreach($query as $r){
-                if($r->status=="Draft")
+                if($r->status=="Purchase Order")
                 {
                     $btn = '<a class="btn btn-primary btn-sm" href="'.url('pemesanan/tambahItem', Converts::encrypt_decrypt('encrypt', $r->id)).'"><i class="fa fa-edit"></i></a>
                    <button type="button" value='.$r->id.' class="btn btn-danger btn-sm" onclick="konfirmHapus(this)"> <i class="fa fa-times"></i></button>';
                 } else {
-                    $btn = '<a class="btn btn-success btn-sm" href="#"><i class="fa fa-eye"></i></a>';
+                    $btn = '<button type="button" value="'.$r->id.'" name="btn-detail[]" id="btn-detail" class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#formModalDetail" onclick="goDetail(this)"><i class="fa fa-eye"></i></button>';
                 }
 
                 $Data['act'] = $btn;
@@ -68,7 +69,7 @@ class POController extends Controller
                 $Data['supplier'] = $r->getSupplier->supplier_name;
                 $Data['po_remark'] = $r->po_remark;
                 $Data['po_total'] = "Rp. ".Converts::conver_double_to_money($r->po_total);
-                $Data['status'] = "<span class='badge badge-primary'>".$r->status."</span>";
+                $Data['status'] = ($r->status=="Purchase Order") ? "<span class='badge badge-primary'>".$r->status."</span>" : "<span class='badge badge-success'>".$r->status."</span>";
                 $Data['no'] = $counter;
                 $data[] = $Data;
                 $counter++;
@@ -108,7 +109,7 @@ class POController extends Controller
                     'po_remark' => $request->inp_remark,
                     'user_at' => auth()->user()->id,
                     'created_at' => $this->dateTimeInsert,
-                    'status' => 'Draft'
+                    'status' => 'Purchase Order'
                 ];
                 $lastID = PurchaseOrderModel::insertGetId($data);
 
@@ -226,6 +227,29 @@ class POController extends Controller
         return response()->json([
             'success' => true
         ]);
+    }
+
+    public function show($id)
+    {
+        $data = [
+            'header' => PurchaseOrderModel::with([
+                'getSupplier'
+            ])->find($id),
+            'detail' => PurchaseOrderDetailModel::with(['getParts', 'getParts.getSatuan'])->where('id_head', $id)->get()
+        ];
+        return view('po.detail', $data);
+    }
+
+    public function print($id)
+    {
+        $data = [
+            'header' => PurchaseOrderModel::with([
+                'getSupplier'
+            ])->find($id),
+            'detail' => PurchaseOrderDetailModel::with(['getParts', 'getParts.getSatuan'])->where('id_head', $id)->get()
+        ];
+        $pdf = Pdf::loadView('po.print', $data)->setPaper('A4', 'potrait');
+        return $pdf->stream();
     }
 
     function roles_head($request)

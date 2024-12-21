@@ -2,16 +2,18 @@
 
 use App\Http\Controllers\CommonController;
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\ManajemenPekerjaanController;
 use App\Http\Controllers\PartsController;
 use App\Http\Controllers\PenerimaanController;
 use App\Http\Controllers\POController;
+use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\VehicleController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('auth.login');
 });
 
 Auth::routes();
@@ -151,12 +153,50 @@ Route::middleware('auth')->group(function ()
         Route::get('editItem/{id}', [POController::class, 'edit_item_po']);
         Route::put('updateItem/{id}', [POController::class, 'update_item_po']);
         Route::get('deleteDetail/{id}', [POController::class, 'delete_detail_po']);
+        Route::get('detail/{id}', [POController::class, 'show']);
+        Route::get('print/{id}', [POController::class, 'print']);
 
      });
      //penerimaan
      Route::group(['prefix' => 'penerimaan'], function(){
+        //list
+        Route::get('daftar', [PenerimaanController::class, 'index'])->name('penerimaan.index');
+        Route::get('getData', [PenerimaanController::class, 'getData'])->name('penerimaan.data');
+        //add new
         Route::get('baru', [PenerimaanController::class, 'baru'])->name('penerimaan.baru');
         Route::post('getPO', [PenerimaanController::class, 'getPO'])->name('penerimaan.get_po');
         Route::post('store', [PenerimaanController::class, 'store'])->name('penerimaan.store');
+        Route::get('detail/{id}', [PenerimaanController::class, 'show']);
+     });
+     //manajemen pekerjaan
+     Route::group(['prefix' => 'manajemen_pekerjaan'], function(){
+        //kategori pekerjaan
+        Route::get('kategori_pekerjaan', [ManajemenPekerjaanController::class, 'kategori_pekerjaan'])->name('manajemen_pekerjaan.kategori.index');
+        Route::get('data_kategori_pekerjaan', [ManajemenPekerjaanController::class, 'kategori_pekerjaan_data'])->name('manajemen_pekerjaan.kategori.data');
+        Route::get('baru_kategori_pekerjaan', [ManajemenPekerjaanController::class, 'kategori_pekerjaan_baru'])->name('manajemen_pekerjaan.kategori.baru');
+        Route::post('simpan_kategori_pekerjaan', [ManajemenPekerjaanController::class, 'kategori_pekerjaan_simpan'])->name('manajemen_pekerjaan.kategori.simpan');
+        Route::get('kategori_pekerjaan_edit/{id}', [ManajemenPekerjaanController::class, 'kategori_pekerjaan_edit']);
+        Route::put('kategori_pekerjaan_update/{id}', [ManajemenPekerjaanController::class, 'kategori_pekerjaan_update']);
+        Route::get('kategori_pekerjaan_destroy/{id}', [ManajemenPekerjaanController::class, 'kategori_pekerjaan_destroy']);
+
+        //pekerjaan dan jasa
+        Route::get('pekerjaan', [ManajemenPekerjaanController::class, 'pekerjaan'])->name('manajemen_pekerjaan.pekerjaan.index');
+        Route::get('pekerjaan_data', [ManajemenPekerjaanController::class, 'pekerjaan_data'])->name('manajemen_pekerjaan.pekerjaan.data');
+        Route::get('pekerjaan_baru', [ManajemenPekerjaanController::class, 'pekerjaan_baru'])->name('manajemen_pekerjaan.pekerjaan.baru');
+        Route::post('pekerjaan_simpan', [ManajemenPekerjaanController::class, 'pekerjaan_simpan'])->name('manajemen_pekerjaan.pekerjaan.simpan');
+        Route::get('pekerjaan_edit/{id}', [ManajemenPekerjaanController::class, 'pekerjaan_edit']);
+        Route::put('pekerjaan_update/{id}', [ManajemenPekerjaanController::class, 'pekerjaan_update']);
+        Route::get('pekerjaan_destroy/{id}', [ManajemenPekerjaanController::class, 'pekerjaan_destroy']);
+     });
+     //Penjualan
+     Route::group(['prefix' => 'service'], function(){
+         //add new
+         Route::get('baru', [ServiceController::class, 'baru'])->name('service.baru');
+         Route::post('get_unit_customer', [ServiceController::class, 'getUnitCustomer'])->name('service.get_unit_customer');
+     });
+
+     Route::group(['prefix' => 'search'], function(){
+        Route::post('parts_autocomplete', [PartsController::class, 'autocomplete_parts'])->name('autocomplete_parts');
+        Route::post('pekerjaan_autocomplete', [ManajemenPekerjaanController::class, 'autocomplete_pekerjaan'])->name('autocomplete_pekerjaan');
      });
 });

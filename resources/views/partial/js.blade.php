@@ -39,6 +39,7 @@
 <script src="{{ asset('assets/js/setting-demo2.js') }}"></script>
 <script src="{{ asset('assets/plugins/fancybox/jquery.fancybox.min.js') }}"></script>
 <script src="{{ asset('assets/plugins/number/jquery.number.js') }}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
 
 <!-- Datatables -->
 {{-- <script src="https://cdn.datatables.net/2.0.7/js/dataTables.js"></script>

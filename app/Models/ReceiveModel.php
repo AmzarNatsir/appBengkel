@@ -28,4 +28,9 @@ class ReceiveModel extends Model
         'user_up',
         'user_del'
     ];
+
+    public function getPO()
+    {
+        return $this->belongsTo(PurchaseOrderModel::class, 'po_reff', 'id');
+    }
 }

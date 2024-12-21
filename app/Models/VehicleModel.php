@@ -2,8 +2,10 @@
 
 namespace App\Models;
 
+use App\Models\common\BrandModel;
 use App\Models\common\ColorModel;
 use App\Models\common\JenisModel;
+use App\Models\common\ModelBrandModel;
 use App\Models\common\TypeModel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -29,6 +31,16 @@ class VehicleModel extends Model
         'created_at',
         'updated_at'
     ];
+
+    public function getBrand()
+    {
+        return $this->belongsTo(BrandModel::class, "oid_brand", "oid_brand");
+    }
+
+    public function getModel()
+    {
+        return $this->belongsTo(ModelBrandModel::class, "oid_brand", "oid_brand");
+    }
 
     public function getType()
     {

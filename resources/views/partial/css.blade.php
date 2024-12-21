@@ -13,6 +13,7 @@
 <link rel="stylesheet" href="https://cdn.datatables.net/datetime/1.5.2/css/dataTables.dateTime.min.css" />
 <link rel="stylesheet" href="https://cdn.datatables.net/select/2.0.2/css/select.dataTables.css" />
 <link rel="stylesheet" href="https://editor.datatables.net/extensions/Editor/css/editor.dataTables.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css" />
 <style>
     .bg-modal{
         position: fixed;

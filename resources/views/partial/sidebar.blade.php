@@ -63,12 +63,12 @@
                 <h4 class="text-section">Components</h4>
             </li> --}}
             <li class="nav-item">
-                <a data-bs-toggle="collapse" href="#base">
+                <a data-bs-toggle="collapse" href="#data_master">
                 <i class="fas fa-layer-group"></i>
-                <p>Common</p>
+                <p>Data Master</p>
                 <span class="caret"></span>
                 </a>
-                <div class="collapse" id="base">
+                <div class="collapse" id="data_master">
                 <ul class="nav nav-collapse">
                     <li class="nav-item {{ request()->routeIs('brand.*') ? 'active submenu' : '' }}">
                     <a href="{{ route('brand.index') }}"><span class="sub-item">Brand</span></a>
@@ -94,6 +94,22 @@
                 </ul>
                 </div>
             </li>
+            <li class="nav-item">
+                <a data-bs-toggle="collapse" href="#manajemen_pekerjaan">
+                <i class="fas fa-layer-group"></i>
+                <p>Manajemen Pekerjaan</p>
+                <span class="caret"></span>
+                </a>
+                <div class="collapse" id="manajemen_pekerjaan">
+                    <ul class="nav nav-collapse">
+                        <li class="nav-item {{ request()->routeIs('manajemen_pekerjaan.*') ? 'active submenu' : '' }}">
+                            <a href="{{ route('manajemen_pekerjaan.kategori.index') }}"><span class="sub-item">Kategori Pekerjaan</span></a>
+                        </li>
+                        <li class="nav-item {{ request()->routeIs('manajemen_pekerjaan.*') ? 'active submenu' : '' }}">
+                            <a href="{{ route('manajemen_pekerjaan.pekerjaan.index') }}"><span class="sub-item">Pekerjaan & Jasa</span></a>
+                        </li>
+                    </ul>
+                </div>
             <div class="dropdown-divider"></div>
             <li class="nav-item {{ request()->routeIs('customer.*') ? 'active submenu' : '' }}">
                 <a href="{{ route('customer.index') }}">
@@ -129,7 +145,7 @@
             <li class="nav-item {{ request()->routeIs('pemesanan.*') ? 'active submenu' : '' }}">
                 <a data-bs-toggle="collapse" href="#submenu_pemesanan">
                 <i class="fas fa-check-double"></i>
-                <p>Pemesanan Barang</p>
+                <p>Pemesanan</p>
                 <span class="caret"></span>
                 </a>
                 <div class="collapse" id="submenu_pemesanan">
@@ -150,7 +166,7 @@
             <li class="nav-item">
                 <a data-bs-toggle="collapse" href="#submenu_penerimaan">
                 <i class="fas fa-receipt"></i>
-                <p>Penerimaan Barang</p>
+                <p>Penerimaan</p>
                 <span class="caret"></span>
                 </a>
                 <div class="collapse" id="submenu_penerimaan">
@@ -159,7 +175,7 @@
                         <a href="{{ route('penerimaan.baru') }}"><span class="sub-item">Baru</span></a>
                     </li>
                     <li class="nav-item">
-                        <a href="#"><span class="sub-item">Daftar</span></a>
+                        <a href="{{ route('penerimaan.index') }}"><span class="sub-item">Daftar</span></a>
                     </li>
                     <li class="nav-item">
                         <a href="{{ url('users') }}"><span class="sub-item">Summary</span></a>
@@ -167,13 +183,34 @@
                 </ul>
                 </div>
             </li>
+            {{-- Penjualan --}}
             <li class="nav-item">
-                <a data-bs-toggle="collapse" href="#submenu">
+                <a data-bs-toggle="collapse" href="#submenu_service">
+                <i class="fas fa-receipt"></i>
+                <p>Service</p>
+                <span class="caret"></span>
+                </a>
+                <div class="collapse" id="submenu_service">
+                <ul class="nav nav-collapse">
+                    <li class="nav-item">
+                        <a href="{{ route('service.baru') }}"><span class="sub-item">Baru</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#"><span class="sub-item">Daftar</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#"><span class="sub-item">Summary</span></a>
+                    </li>
+                </ul>
+                </div>
+            </li>
+            <li class="nav-item">
+                <a data-bs-toggle="collapse" href="#submenu_users">
                 <i class="fas fa-bars"></i>
                 <p>User Management</p>
                 <span class="caret"></span>
                 </a>
-                <div class="collapse" id="submenu">
+                <div class="collapse" id="submenu_users">
                 <ul class="nav nav-collapse">
                     <li class="nav-item">
                         <a href="{{ url('roles') }}"><span class="sub-item">Roles</span></a>

@@ -11,15 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('tb_receive_detail', function (Blueprint $table) {
+        Schema::create('tb_set_kategori_pekerjaan', function (Blueprint $table) {
             $table->id();
-            $table->integer('id_head');
-            $table->integer('id_part');
-            $table->integer('terima');
-            $table->integer('order');
-            $table->double('harga_satuan');
-            $table->double('diskon');
-            $table->double('sub_total');
+            $table->string('kategori_pekerjaan', 100);
+            $table->integer('user_at');
+            $table->integer('user_up')->nullable();
+            $table->integer('user_del')->nullable();
             $table->timestamps();
         });
     }
@@ -29,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('tb_receive_detail');
+        Schema::dropIfExists('tb_set_kategori_pekerjaan');
     }
 };

@@ -15,6 +15,7 @@ class ReceiveDetailModel extends Model
         'terima',
         'order',
         'harga_satuan',
+        'diskon',
         'sub_total',
     ];
 

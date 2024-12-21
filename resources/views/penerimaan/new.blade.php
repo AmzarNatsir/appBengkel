@@ -69,26 +69,41 @@
                             <tr>
                                 <th></th>
                                 <th colspan="4" class="nomor_po">Nomor PO :</th>
-                                <th colspan="2">TOTAL</th>
+                                <th colspan="2">Total</th>
                                 <th><input type="text" class="form-control form-control-sm angka" name="inp_total" id="inp_total" value="0" style="text-align: right" readonly></th>
                             </tr>
                             <tr>
                                 <th></th>
                                 <th colspan="4" class="tanggal_po">Tanggal PO :</th>
-                                <th colspan="2">BIAYA LAIN-LAIN</th>
+                                <th colspan="2">Biaya lain-lain</th>
                                 <th><input type="text" class="form-control form-control-sm angka" name="inp_biaya_lain_lain" id="inp_biaya_lain_lain" value="0" style="text-align: right" readonly oninput="add_biaya()" onblur="to_null(this)"></th>
                             </tr>
                             <tr>
                                 <th></th>
                                 <th colspan="4" class="ket_po">Keterangan PO :</th>
-                                <th colspan="2">PPN</th>
+                                <th colspan="2">Ppn</th>
                                 <th><input type="text" class="form-control form-control-sm angka" name="inp_ppn" id="inp_ppn" value="0" style="text-align: right" readonly oninput="add_biaya()" onblur="to_null(this)"></th>
                             </tr>
                             <tr>
                                 <th></th>
-                                <th colspan="4">Cara Bayar</th>
-                                <th colspan="2">TOTAL NET</th>
+                                <th colspan="4">Cara Bayar : &nbsp;&nbsp;
+                                    <div class="form-check form-check-inline p-0">
+                                        <input class="form-check-input" type="radio" name="cara_bayar" id="cara_bayar_1" value="Cash" checked onclick="add_uang_muka(this)">
+                                        <label class="form-check-label" for="cara_bayar_1">Cash</label>
+                                      </div>
+                                      <div class="form-check form-check-inline p-0">
+                                        <input class="form-check-input" type="radio" name="cara_bayar" id="cara_bayar_2" value="Credit" onclick="add_uang_muka(this)">
+                                        <label class="form-check-label" for="cara_bayar_2">Credit</label>
+                                      </div>
+                                </th>
+                                <th colspan="2">Total Net</th>
                                 <th><input type="text" class="form-control form-control-sm angka" name="inp_total_net" id="inp_total_net" value="0" style="text-align: right" readonly></th>
+                            </tr>
+                            <tr>
+                                <th></th>
+                                <th colspan="4"></th>
+                                <th colspan="2">Uang Muka</th>
+                                <th><input type="text" class="form-control form-control-sm angka" name="inp_uang_muka" id="inp_uang_muka" value="0" style="text-align: right" readonly></th>
                             </tr>
                         </tfoot>
                     </table>
@@ -113,6 +128,7 @@
         }).on('change', function(el){
             $("#table_list tbody").empty();
             aktif_teks_foot(false);
+            $("#inp_uang_muka").attr("readonly", true);
             var data = $("#po_select option:selected").val();
             $.ajax({
                 url: "{{ route('penerimaan.get_po')}}",
@@ -203,6 +219,16 @@
         total();
     }
 
+    function add_uang_muka(el)
+    {
+        $("#inp_uang_muka").val("0");
+        if($(el).val() === "Cash") {
+            $("#inp_uang_muka").attr("readonly", true);
+        } else {
+            $("#inp_uang_muka").attr("readonly", false);
+        }
+    }
+
     function uncheck(el)
     {
         var currentRow=$(el).closest("tr");
@@ -228,6 +254,8 @@
         $("#inp_total_net").val("0");
         $("#inp_biaya_lain_lain").attr("readonly", tf);
         $("#inp_ppn").attr("readonly", tf);
+        $("#inp_uang_muka").attr("readonly", tf);
+        $("#cara_bayar_1").attr("cara_bayar_1", 'checked');
         $("#tbl_submit").attr("disabled", tf);
     }
     document.querySelector('#myForm').addEventListener('submit', function(event) {

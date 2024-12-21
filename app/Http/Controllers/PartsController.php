@@ -70,7 +70,7 @@ class PartsController extends Controller
                 $Data['brand'] = $r->getBrand->brand_name;
                 $Data['stok'] = $r->stok_akhir;
                 $Data['harga_beli'] = "Rp. ".Converts::conver_double_to_money($r->harga_beli);
-                $Data['harga_jual'] = "Rp. ".Converts::conver_double_to_money($r->harga_beli);
+                $Data['harga_jual'] = "Rp. ".Converts::conver_double_to_money($r->harga_jual);
                 $Data['no'] = $counter;
                 $data[] = $Data;
                 $counter++;
@@ -243,5 +243,31 @@ class PartsController extends Controller
             'brand_select.required' => "Brand cannot be empty!",
         ]);
         return $validate;
+    }
+
+    //tools
+    public function autocomplete_parts(Request $request)
+    {
+        $query = $request->get('query');
+        $results = PartsModel::with([
+            'getSatuan'
+        ])
+            ->where('part_name', 'LIKE', "%{$query}%")
+            ->limit(10)
+            ->get(); // Adjust as needed
+        $response = array();
+        foreach($results as $list){
+            $response[] = array(
+                "value"=>$list->id,
+                "label"=> "[".$list->oid_part." | ".$list->part_name." | Stok : ".$list->stok_akhir."]",
+                "part_name" => $list->part_name,
+                'stok_akhir' => $list->stok_akhir,
+                'harga_jual' => $list->harga_jual,
+                'satuan' => $list->getSatuan->satuan
+            );
+        }
+        return response()
+            ->json($response)
+            ->withCallback($request->input('callback'));
     }
 }

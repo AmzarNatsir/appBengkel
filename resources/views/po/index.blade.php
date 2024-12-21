@@ -48,6 +48,12 @@
         </table>
     </div>
 </div>
+<!-- Modal -->
+<div class="modal fade" id="formModalDetail" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable modal-lg">
+        <div class="modal-content" id="v_form_detail" style="overflow-y: auto;"></div>
+    </div>
+</div>
 <script>
     $(document).ready(function () {
         window.setTimeout(function () { $(".alert-success").alert('close'); }, 2000);
@@ -74,6 +80,10 @@
             // deferRender: true
         });
     });
+    var goDetail = function(el)
+    {
+        $("#v_form_detail").load("{{ url('pemesanan/detail') }}/"+$(el).val());
+    }
     var konfirmHapus = function(el)
         {
             swal({
