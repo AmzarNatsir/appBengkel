@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\PartsModel;
+use App\Models\PpnMarginModel;
 use App\Models\PurchaseOrderDetailModel;
 use App\Models\PurchaseOrderModel;
 use App\Models\ReceiveDetailModel;
@@ -86,9 +87,19 @@ class PenerimaanController extends Controller
     public function getPO(Request $request)
     {
         $id_data = $request->id;
+        $querymargin = PpnMarginModel::first();
+        if(empty($querymargin->id)) {
+            $n_margin = 0;
+            $n_ppn = 0;
+        } else {
+            $n_margin = $querymargin->margin;
+            $n_ppn = $querymargin->ppn;
+        }
         $data = [
             'head_po' => PurchaseOrderModel::find($id_data),
-            'detail_po' => PurchaseOrderDetailModel::with(['getParts', 'getParts.getSatuan'])->where('id_head', $id_data)->get()
+            'detail_po' => PurchaseOrderDetailModel::with(['getParts', 'getParts.getSatuan'])->where('id_head', $id_data)->get(),
+            'margin_harga_jual' => $n_margin,
+            'persen_ppn' => $n_ppn
         ];
         return response()->json([
             'respon' => $data
@@ -129,6 +140,7 @@ class PenerimaanController extends Controller
                     ]);
                     $update_part = PartsModel::find($value['id_row'][$i]);
                     $update_part->harga_beli = str_replace(",","", $value['harga_satuan'][$i]);
+                    $update_part->harga_jual = str_replace(",","", $value['harga_jual'][$i]);
                     $update_part->stok_akhir += str_replace(",","", $value['qty_diterima'][$i]);
                     $update_part->update();
                 }

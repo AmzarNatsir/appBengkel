@@ -2,9 +2,12 @@
 
 @section('content')
 <div class="page-inner">
-    @if ($message = Session::get('success'))
-    <div class="alert alert-success my-2">
-    <p>{{ $message }}</p>
+    @if (Session::has('status'))
+    <div class="alert alert-success alert-dismissible" role="alert">
+        <button type="button" aria-hidden="true" class="close">
+            <i class="fa fa-times"></i>
+        </button>
+        <span><b> {!! session('message') !!} </b></span>
     </div>
     @endif
     <div class="d-flex align-items-left align-items-md-center flex-column flex-md-row pt-2 pb-4">

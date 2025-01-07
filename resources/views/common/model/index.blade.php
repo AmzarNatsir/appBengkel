@@ -21,7 +21,6 @@
         <thead>
             <tr>
                 <th width="5%">No</th>
-                <th width="10%">Oid</th>
                 <th>Model Name</th>
                 <th>Brand Name</th>
                 <th width="15%">Action</th>
@@ -41,7 +40,6 @@
             autoWidth: true,
             columns: [
                 { data: 'no' },
-                { data: 'oid_model' },
                 { data: 'model_name' },
                 { data: 'brand_name' },
                 { data: 'act' }

@@ -3,28 +3,28 @@
 <div class="page-inner">
     <div class="d-flex align-items-left align-items-md-center flex-column flex-md-row pt-2 pb-4">
         <div>
-            <h3 class="fw-bold mb-3">Parts</h3>
-            <h6 class="op-7 mb-2">Detail Part</h6>
+            <h3 class="fw-bold mb-3">Manajemen Stok</h3>
+            <h6 class="op-7 mb-2">Detail Stok</h6>
         </div>
         <div class="ms-md-auto py-2 py-md-0">
-            <a href="{{ route('parts.index') }}" class="btn btn-primary btn-round">Back</a>
+            <a href="{{ route('manajemen_stok.stok.index') }}" class="btn btn-primary btn-round">Back</a>
         </div>
     </div>
     <div class="row">
         <div class="col-md-7">
             <div class="card">
                 <div class="card-header">
-                    <div class="card-title">Detail Part</div>
+                    <div class="card-title">Detail Stok</div>
                 </div>
                 <div class="card-body">
                     <div class="row">
                         <div class="col-md-12 col-lg-12">
                             <div class="form-group">
-                                <label for="part_name">Part Name</label>
+                                <label for="part_name">Nama Stok</label>
                                 <input type="text" class="form-control form-control-sm" name="part_name" id="part_name" value="{{ $main->part_name }}" disabled>
                             </div>
                         </div>
-                        <div class="col-md-12 col-lg-4">
+                        <div class="col-md-12 col-lg-6">
                             <div class="form-group">
                                 <label for="satuan_select">Satuan</label>
                                 <select class="form-select" name="satuan_select" id="satuan_select" disabled>
@@ -35,7 +35,7 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-12 col-lg-4">
+                        <div class="col-md-12 col-lg-6">
                             <div class="form-group">
                                 <label for="jenis_select">Jenis</label>
                                 <select class="form-select" name="jenis_select" id="jenis_select" disabled>
@@ -46,7 +46,7 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-12 col-lg-4">
+                        <div class="col-md-12 col-lg-6">
                             <div class="form-group">
                                 <label for="brand_select">Brand</label>
                                 <select class="form-select" name="brand_select" id="brand_select" disabled>
@@ -55,6 +55,20 @@
                                     <option value="{{ $brand->id }}" {{ ($brand->id == $main->id_brand) ? "selected" : "" }}>{{ $brand->brand_name }}</option>
                                     @endforeach
                                 </select>
+                            </div>
+                        </div>
+                        <div class="col-md-12 col-lg-6">
+                            <div class="form-group">
+                                <label for="rak_select">Rak</label>
+                                <select class="form-select" name="rak_select" id="rak_select" style="width: 100%" disabled>
+                                    <option value=""></option>
+                                    @foreach ($list_rak as $rak)
+                                    <option value="{{ $rak->id }}" {{ ($rak->id == $main->id_rak) ? "selected" : "" }}>{{ $rak->nama_rak }}</option>
+                                    @endforeach
+                                </select>
+                                @if ($errors->has('rak_select'))
+                                <div class="invalid-feedback">{{ $errors->first('rak_select') }}</div>
+                                @endif
                             </div>
                         </div>
                     </div>
@@ -91,13 +105,13 @@
         <div class="col-md-5">
             <div class="card">
                 <div class="card-header">
-                    <div class="card-title">Description</div>
+                    <div class="card-title">Deskripsi</div>
                 </div>
                 <div class="card-body">
                     <p>{{ $main->deskripsi }}</p>
                 </div>
                 <div class="card-header">
-                    <div class="card-title">Image</div>
+                    <div class="card-title">Gambar</div>
                 </div>
                 <div class="card-body">
                     <div class="form-group row">
@@ -133,6 +147,12 @@
             theme: "classic",
             allowClear: true,
             placeholder: "Select Brand",
+            height: '36px!important'
+        });
+        $('#rak_select').select2({
+            theme: "classic",
+            allowClear: true,
+            placeholder: "Pilihan Rak",
             height: '36px!important'
         });
         $(".angka").number( true, 0);

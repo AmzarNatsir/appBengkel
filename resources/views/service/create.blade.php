@@ -49,7 +49,7 @@
         </div>
     </div>
     @include('additional.alert')
-    <form action="{{ route('penerimaan.store') }}" method="POST" id="myForm">
+    <form action="{{ route('service.store') }}" method="POST" id="myForm">
     @csrf
     <div class="row">
         <div class="col-lg-12">
@@ -59,13 +59,16 @@
                         <div class="col-md-12 col-lg-2 p-0">
                             <div class="form-group">
                                 <label for="receive_date">Tanggal Service</label>
-                                <input type="date" class="form-control form-control-sm" name="tgl_service" id="tgl_service" value="{{ date('Y-m-d') }}" required>
+                                <input type="date" class="form-control form-control-sm @error('tgl_service') is-invalid @enderror" name="tgl_service" id="tgl_service" value="{{ date('Y-m-d') }}">
+                                @if ($errors->has('tgl_service'))
+                                <div class="invalid-feedback">{{ $errors->first('tgl_service') }}</div>
+                                @endif
                             </div>
                         </div>
                         <div class="col-md-12 col-lg-5 p-0">
                             <div class="form-group">
                                 <label for="unit_select">Unit</label>
-                                <select class="form-select @error('unit_select') is-invalid @enderror" name="unit_select" id="unit_select" style="width: 100%" required>
+                                <select class="form-select @error('unit_select') is-invalid @enderror" name="unit_select" id="unit_select" style="width: 100%">
                                     <option value=""></option>
                                     @foreach ($unit as $unit)
                                     <option value="{{ $unit->id }}">{{ $unit->plat_number }} - {{ $unit->getType->getBrand->brand_name." ".$unit->getType->getModel->model_name." ".$unit->getType->type_name }}</option>
@@ -85,7 +88,10 @@
                         <div class="col-md-12 col-lg-12 p-0">
                             <div class="form-group">
                                 <label for="inp_deskripsi">Deskripsi Service</label>
-                                <textarea name="inp_deskripsi" id="inp_deskripsi" class="form-control" required></textarea>
+                                <textarea name="inp_deskripsi" id="inp_deskripsi" class="form-control form-control-sm @error('inp_deskripsi') is-invalid @enderror"></textarea>
+                                @if ($errors->has('inp_deskripsi'))
+                                <div class="invalid-feedback">{{ $errors->first('inp_deskripsi') }}</div>
+                                @endif
                             </div>
                         </div>
                     </div>
@@ -127,7 +133,7 @@
                                                 <thead style="background-color: rgb(54, 100, 197); color:white">
                                                     <th style="width: 5%">No</th>
                                                     <th>Pekerjaan</th>
-                                                    <th style="width: 20%">Kategori</th>
+                                                    <th style="width: 30%">Kategori</th>
                                                     <th style="width: 20%">Harga</th>
                                                 </thead>
                                                 <tbody class="row_detail_pekerjaan"></tbody>
@@ -185,7 +191,7 @@
                     <table id="table_list" style="width: 100%" cellpadding="3">
                         <tfoot>
                             <tr>
-                                <th colspan="3">
+                                <th style="width: 50%">
                                     Cara Bayar : &nbsp;&nbsp;
                                     <div class="form-check form-check-inline p-0">
                                         <input class="form-check-input" type="radio" name="cara_bayar" id="cara_bayar_1" value="Cash" checked onclick="add_uang_muka(this)">
@@ -196,49 +202,52 @@
                                         <label class="form-check-label" for="cara_bayar_2">Credit</label>
                                       </div>
                                 </th>
-                                <th>Total Pekerjaan (Rp.)</th>
-                                <th><input type="text" class="form-control form-control-sm angka" name="inp_total_pekerjaan" id="inp_total_pekerjaan" value="0" style="text-align: right" readonly></th>
+                                <th style="width: 30%">Total Pekerjaan (Rp.)</th>
+                                <th colspan="2"><input type="text" class="form-control form-control-sm angka" name="inp_total_pekerjaan" id="inp_total_pekerjaan" value="0" style="text-align: right" readonly></th>
                             </tr>
                             <tr>
-                                <th colspan="3"></th>
+                                <th></th>
                                 <th>Total Parts (Rp.)</th>
-                                <th><input type="text" class="form-control form-control-sm angka" name="inp_total_parts" id="inp_total_parts" value="0" style="text-align: right" readonly></th>
+                                <th colspan="2"><input type="text" class="form-control form-control-sm angka" name="inp_total_parts" id="inp_total_parts" value="0" style="text-align: right" readonly></th>
                             </tr>
                             <tr>
-                                <th colspan="3"></th>
+                                <th></th>
                                 <th>Total (Pekerjaan + Parts) (Rp.)</th>
-                                <th><input type="text" class="form-control form-control-sm angka" name="inp_total_a_b" id="inp_total_a_b" value="0" style="text-align: right" readonly></th>
+                                <th colspan="2"><input type="text" class="form-control form-control-sm angka" name="inp_total_a_b" id="inp_total_a_b" value="0" style="text-align: right" readonly></th>
                             </tr>
                             <tr>
-                                <th colspan="3"></th>
+                                <th></th>
                                 <th>
                                     <input class="form-check-input" type="checkbox" value="1" id="check_diskon" name="check_diskon" onchange="checkDiskon(this)">
                                     <label class="form-check-label" for="check_diskon">
                                         Diskon (Rp.)
                                     </label>
                                 </th>
-                                <th><input type="text" class="form-control form-control-sm angka" name="inp_diskon" id="inp_diskon" value="0" style="text-align: right" readonly></th>
+                                <th colspan="2"><input type="text" class="form-control form-control-sm angka" name="inp_diskon" id="inp_diskon" value="0" style="text-align: right" oninput="hitung_diskon()" readonly></th>
                             </tr>
                             <tr>
-                                <th colspan="3"></th>
+                                <th></th>
                                 <th>
                                     <input class="form-check-input" type="checkbox" value="1" id="check_ppn" name="check_ppn" onchange="checkPpn(this)">
                                     <label class="form-check-label" for="check_ppn">
                                         Ppn
                                     </label>
                                 </th>
-                                <th><input type="text" class="form-control form-control-sm angka" name="inp_ppn" id="inp_ppn" value="0" style="text-align: right" readonly></th>
+                                <th style="width: 5%"><input type="text" class="form-control form-control-sm angka" name="inp_ppn_persen" id="inp_ppn_persen" value="0" style="text-align: right" readonly></th>
+                                <th>
+                                    <input type="text" class="form-control form-control-sm angka" name="inp_ppn_rupiah" id="inp_ppn_rupiah" value="0" style="text-align: right" readonly>
+                                </th>
                             </tr>
                             <tr>
-                                <th colspan="3"></th>
+                                <th></th>
                                 <th>Total Net</th>
-                                <th><input type="text" class="form-control form-control-sm angka" name="inp_total_net" id="inp_total_net" value="0" style="text-align: right" readonly></th>
+                                <th colspan="2"><input type="text" class="form-control form-control-sm angka" name="inp_total_net" id="inp_total_net" value="0" style="text-align: right" readonly></th>
                             </tr>
                         </tfoot>
                     </table>
                 </div>
                 <div class="card-action" style="text-align: center">
-                    <button type="submit" class="btn btn-success btn-round" id="tbl_submit" name="tbl_submit" disabled>Submit</button>
+                    <button type="submit" class="btn btn-success btn-round" id="tbl_submit" name="tbl_submit">Submit</button>
                 </div>
             </div>
         </div>
@@ -296,12 +305,12 @@
             select: function(event, ui) {
                 if(ui.item.stok_akhir <= 0)
                 {
-                    alert("Persediaan Obat Habis");
+                    alert("Persediaan Stok Habis");
                 } else {
                     var sisa_stok = ui.item.stok_akhir;
                     var sub_total_def = ui.item.harga_jual * 1;
                     $("#inputSearch").val(ui.item.label);
-                    var content_item = '<tr class="rows_item" name="rows_item[]"><td><input type="hidden" name="id_row[]" value=""><input type="hidden" name="current_stok[]" value='+sisa_stok+'><button type="button" title="Hapus Baris" class="btn btn-danger btn-sm waves-effect waves-light" onclick="hapus_item(this)"><i class="fa fa-minus"></i></button></td>'+'<td><input type="hidden" name="item_id[]" value="'+ui.item.value+'"><label style="color: blue; font-size: 11pt">'+ui.item.part_name+'</label></td>'+'<td style="text-align: center"><label style="color: blue; font-size: 11pt">'+ui.item.satuan+'</label></td>'+'<td align="center"><div class="input-group"><span class="input-group-btn"><button type="button" class="btn btn-sm btn-primary" name="tbl_minus[]" onClick="min_qty(this)"><i class="fa fa-minus"></i></button></span><input type="number" min="1" max="'+sisa_stok+'" id="item_qty[]" name="item_qty[]" class="form-control form-control-sm" value="1" style="text-align:center" readonly><span class="input-group-btn"><button type="button" class="btn btn-sm btn-primary" name="tbl_plus[]" onClick="add_qty(this)"><i class="fa fa-plus"></i></button></span></div></td>'+'<td class="text-right"><input type="text" class="form-control form-control-sm angka" id="harga_satuan[]" name="harga_satuan[]" value="'+ui.item.harga_jual+'" style="text-align: right" onInput=hitungSubTotal(this)></td>'+'<td class="text-right"><input type="text" name="item_sub_total[]" value="'+sub_total_def+'" class="form-control form-control-sm text-right angka" style="text-align: right" readonly></td>'+'</tr>';
+                    var content_item = '<tr class="rows_item" name="rows_item_part[]"><td><input type="hidden" name="id_row_part[]" value=""><input type="hidden" name="current_stok[]" value='+sisa_stok+'><button type="button" title="Hapus Baris" class="btn btn-danger btn-sm waves-effect waves-light" onclick="hapus_item(this)"><i class="fa fa-minus"></i></button></td>'+'<td><input type="hidden" name="part_id[]" value="'+ui.item.value+'"><label style="color: blue; font-size: 11pt">'+ui.item.part_name+'</label></td>'+'<td style="text-align: center"><label style="color: blue; font-size: 11pt">'+ui.item.satuan+'</label></td>'+'<td align="center"><div class="input-group"><span class="input-group-btn"><button type="button" class="btn btn-sm btn-primary" name="tbl_minus[]" onClick="min_qty(this)"><i class="fa fa-minus"></i></button></span><input type="number" min="1" max="'+sisa_stok+'" id="part_qty[]" name="part_qty[]" class="form-control form-control-sm" value="1" style="text-align:center" readonly><span class="input-group-btn"><button type="button" class="btn btn-sm btn-primary" name="tbl_plus[]" onClick="add_qty(this)"><i class="fa fa-plus"></i></button></span></div></td>'+'<td class="text-right"><input type="text" class="form-control form-control-sm angka" id="harga_satuan[]" name="harga_satuan[]" value="'+ui.item.harga_jual+'" style="text-align: right" onInput=hitungSubTotal(this)></td>'+'<td class="text-right"><input type="text" name="part_sub_total[]" value="'+sub_total_def+'" class="form-control form-control-sm text-right angka" style="text-align: right" readonly></td>'+'</tr>';
                     $(".row_detail").after(content_item);
                     $('.angka').number( true, 0 );
                     $("#inputSearch").val("");
@@ -357,18 +366,30 @@
             $("#inp_diskon").val("0");
             $("#inp_diskon").attr("readonly", true);
         }
+        hitung_total_net();
+    }
+
+    var hitung_diskon = function()
+    {
+        hitung_total_net();
     }
 
     var checkPpn = function(el)
     {
-        // var check= $(el).val();
+        const total = $("#inp_total_a_b").val();
         if ($(el).is(":checked")) {
-            $("#inp_ppn").val("0");
-            $("#inp_ppn").attr("readonly", false);
+            getPpn_value(total);
         } else {
-            $("#inp_ppn").val("0");
-            $("#inp_ppn").attr("readonly", true);
+            $("#inp_ppn_persen").val("0");
+            $("#inp_ppn_rupiah").val("0");
+            hitung_total_net();
         }
+
+    }
+
+    var hitung_ppn = function()
+    {
+        hitung_total_net();
     }
 
     var changeToNull = function(el)
@@ -382,7 +403,7 @@
     var add_qty = function(el)
     {
         var sisa_stok = $(el).parent().parent().find('input[name="current_stok[]"]');
-        var input = $(el).parent().parent().find('input[name="item_qty[]"]'),
+        var input = $(el).parent().parent().find('input[name="part_qty[]"]'),
             min = input.attr("min"),
             max = input.attr("max");
         var oldValue = parseFloat(input.val());
@@ -392,14 +413,14 @@
           var newVal = oldValue + 1;
         }
         // input.val(newVal);
-        $(el).parent().parent().find('input[name="item_qty[]"]').val(newVal);
+        $(el).parent().parent().find('input[name="part_qty[]"]').val(newVal);
         hitungSubTotal(el);
         // hitung_total_net();
     }
 
     var min_qty = function(el)
     {
-        var input = $(el).parent().parent().find('input[name="item_qty[]"]'),
+        var input = $(el).parent().parent().find('input[name="part_qty[]"]'),
             min = input.attr("min"),
             max = input.attr("max");
         var oldValue = parseFloat(input.val());
@@ -409,16 +430,16 @@
           var newVal = oldValue - 1;
         }
         //input.val(newVal);
-        $(el).parent().parent().find('input[name="item_qty[]"]').val(newVal);
+        $(el).parent().parent().find('input[name="part_qty[]"]').val(newVal);
         hitungSubTotal(el);
         // hitung_total_net();
     }
     var hitungSubTotal = function(el){
         var currentRow=$(el).closest("tr");
-        var jumlah = $(el).parent().parent().find('input[name="item_qty[]"]').val();
+        var jumlah = $(el).parent().parent().find('input[name="part_qty[]"]').val();
         var harga = currentRow.find('td:eq(4) input[name="harga_satuan[]"]').val();
         var sub_total = parseFloat(jumlah) * parseFloat(harga);
-        currentRow.find('td:eq(5) input[name="item_sub_total[]"]').val(sub_total);
+        currentRow.find('td:eq(5) input[name="part_sub_total[]"]').val(sub_total);
         total_parts();
         // hitung_total();
     }
@@ -433,7 +454,7 @@
     var total_parts = function(){
         var total = 0;
         var sub_total = 0;
-        $.each($('input[name="item_sub_total[]"]'),function(key, value){
+        $.each($('input[name="part_sub_total[]"]'),function(key, value){
             sub_total = $(value).val() ?  $(value).val() : 0;
             total += parseFloat($(value).val());
         })
@@ -474,8 +495,8 @@
     {
         var total_a_b = $("#inp_total_a_b").val();
         var diskon_rupiah = $("#inp_diskon").val();
-        // var ppn_rupiah = $("#inputTotal_PpnRupiah").val();
-        var total_net = (total_a_b - diskon_rupiah); // + parseInt(ppn_rupiah);
+        var ppn_rupiah = $("#inp_ppn_rupiah").val();
+        var total_net = (total_a_b - diskon_rupiah) + parseInt(ppn_rupiah);
         $("#inp_total_net").val(total_net);
     }
 
@@ -485,8 +506,32 @@
         $("#inp_total_parts").val('0');
         $("#inp_total_a_b").val("0");
         $("#inp_diskon").val('0');
-        $("#inp_ppn").val('0');
+        $("#inp_ppn_persen").val('0');
+        $("#inp_ppn_rupiah").val('0');
         $("#inp_total_net").val('0');
+        $("#check_diskon").prop("checked", false);
+        $("#check_ppn").prop("checked", false);
+    }
+
+    function getPpn_value(total)
+    {
+        $.ajax({
+            headers : {
+                'X-CSRF-TOKEN' : '<?php echo csrf_token() ?>'
+            },
+            type: "get",
+            url: '{{ route("data.ppn") }}',
+            dataType: "json",
+            success: function( data ) {
+                const n_ppn = data.result;
+                const ppn = total * (n_ppn / 100);
+                $("#inp_ppn_persen").val(data.result);
+                $("#inp_ppn_rupiah").val(ppn);
+                hitung_total_net();
+            }
+
+        });
+
     }
 
     document.querySelector('#myForm').addEventListener('submit', function(event) {

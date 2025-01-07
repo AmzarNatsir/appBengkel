@@ -21,7 +21,6 @@
         <thead>
             <tr>
                 <th width="5%">No</th>
-                <th width="10%">Oid</th>
                 <th>Satuan</th>
                 <th width="15%">Action</th>
             </tr>
@@ -40,7 +39,6 @@
             autoWidth: true,
             columns: [
                 { data: 'no' },
-                { data: 'oid_satuan' },
                 { data: 'satuan' },
                 { data: 'act' }
             ],

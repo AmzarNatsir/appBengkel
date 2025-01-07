@@ -21,6 +21,7 @@ class PartsModel extends Model
         'id_satuan',
         'id_jenis',
         'id_brand',
+        'id_rak',
         'stok_awal',
         'stok_akhir',
         'harga_beli',
@@ -47,6 +48,10 @@ class PartsModel extends Model
     public function getBrand()
     {
         return $this->belongsTo(BrandModel::class, 'id_brand', 'id');
+    }
+    public function getRak()
+    {
+        return $this->belongsTo(RakModel::class, 'id_rak', 'id');
     }
 
 }

@@ -21,7 +21,6 @@
         <thead>
             <tr>
                 <th width="5%">No</th>
-                <th width="10%">Oid</th>
                 <th>Color (IDN)</th>
                 <th>Color (ENG)</th>
                 <th width="15%">Action</th>
@@ -41,7 +40,6 @@
             autoWidth: true,
             columns: [
                 { data: 'no' },
-                { data: 'oid_color' },
                 { data: 'color_idn' },
                 { data: 'color_eng' },
                 { data: 'act' }

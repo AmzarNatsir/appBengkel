@@ -60,7 +60,8 @@
                             <th class="text-center" style="width: 8%">Terima</th>
                             <th class="text-center" style="width: 8%">Order</th>
                             <th class="text-center" style="width: 10%">Satuan</th>
-                            <th class="text-center" style="width: 15%">Harga</th>
+                            <th class="text-center" style="width: 15%">Harga Beli</th>
+                            <th class="text-center" style="width: 15%">Harga Jual</th>
                             <th class="text-center" style="width: 15%">Disc&nbsp;(Rp)</th>
                             <th class="text-center" style="width: 15%">Sub&nbsp;Total</th>
                         </thead>
@@ -68,25 +69,25 @@
                         <tfoot>
                             <tr>
                                 <th></th>
-                                <th colspan="4" class="nomor_po">Nomor PO :</th>
+                                <th colspan="5" class="nomor_po">Nomor PO :</th>
                                 <th colspan="2">Total</th>
                                 <th><input type="text" class="form-control form-control-sm angka" name="inp_total" id="inp_total" value="0" style="text-align: right" readonly></th>
                             </tr>
                             <tr>
                                 <th></th>
-                                <th colspan="4" class="tanggal_po">Tanggal PO :</th>
+                                <th colspan="5" class="tanggal_po">Tanggal PO :</th>
                                 <th colspan="2">Biaya lain-lain</th>
                                 <th><input type="text" class="form-control form-control-sm angka" name="inp_biaya_lain_lain" id="inp_biaya_lain_lain" value="0" style="text-align: right" readonly oninput="add_biaya()" onblur="to_null(this)"></th>
                             </tr>
                             <tr>
                                 <th></th>
-                                <th colspan="4" class="ket_po">Keterangan PO :</th>
+                                <th colspan="5" class="ket_po">Keterangan PO :</th>
                                 <th colspan="2">Ppn</th>
                                 <th><input type="text" class="form-control form-control-sm angka" name="inp_ppn" id="inp_ppn" value="0" style="text-align: right" readonly oninput="add_biaya()" onblur="to_null(this)"></th>
                             </tr>
                             <tr>
                                 <th></th>
-                                <th colspan="4">Cara Bayar : &nbsp;&nbsp;
+                                <th colspan="5">Cara Bayar : &nbsp;&nbsp;
                                     <div class="form-check form-check-inline p-0">
                                         <input class="form-check-input" type="radio" name="cara_bayar" id="cara_bayar_1" value="Cash" checked onclick="add_uang_muka(this)">
                                         <label class="form-check-label" for="cara_bayar_1">Cash</label>
@@ -101,7 +102,7 @@
                             </tr>
                             <tr>
                                 <th></th>
-                                <th colspan="4"></th>
+                                <th colspan="5"></th>
                                 <th colspan="2">Uang Muka</th>
                                 <th><input type="text" class="form-control form-control-sm angka" name="inp_uang_muka" id="inp_uang_muka" value="0" style="text-align: right" readonly></th>
                             </tr>
@@ -120,6 +121,7 @@
     $(document).ready(function () {
         window.setTimeout(function () { $(".alert-success").alert('close'); }, 2000);
         aktif_teks_foot(true);
+        hapus_teks();
        $('#po_select').select2({
             // theme: "classic",
             allowClear: true,
@@ -142,19 +144,26 @@
                 {
                     var result_head = res.respon.head_po;
                     var result_detail = res.respon.detail_po;
-                    console.log(result_head);
+                    var set_margin = res.respon.margin_harga_jual;
+                    var set_ppn = res.respon.persen_ppn
                     var content_head = '';
                     $(".nomor_po").html("Nomor PO : "+result_head.po_number);
                     $(".tanggal_po").html("Tanggal PO : "+result_head.po_date);
                     $(".ket_po").html("Keterangan PO : "+result_head.po_remark);
                     result_detail.forEach(element => {
                         console.log(element);
+                        const ppn = element.harga_satuan * ((set_ppn / 100));
+                        const nilai_ppn = parseInt(element.harga_satuan) + parseInt(ppn);
+                        const nilai_margin = nilai_ppn * ((set_margin/100) * 100);
+                        const harga_jual = parseInt(nilai_margin) + parseInt(nilai_ppn);
+                        // console.log("set_margin");
                         var content_item = '<tr class="rows_item" name="rows_item[]"><td><div class="form-check"><input class="form-check-input" type="checkbox" value="'+element.id+'" id="flexCheckDefault" name="check_item[]" onclick="pilihItem(this)"></div></td>'+
                         '<td><input type="hidden" name="id_row[]" value="'+element.id_part+'"><input type="text" class="form-control form-control-sm" name="nama_item[]" value="'+element.get_parts.oid_part+" - "+element.get_parts.part_name+'" readonly></td>'+
                         '<td><input type="text" class="form-control form-control-sm angka" name="qty_diterima[]" value="'+element.qty+'" style="text-align: right" oninput="hitungSubTotal(this)" readonly></td>'+
                         '<td><input type="text" class="form-control form-control-sm angka" name="qty_dipesan[]" value="'+element.qty+'" style="text-align: right" readonly></td>'+
                         '<td><input type="text" class="form-control form-control-sm" name="part_satuan[]" value="'+element.get_parts.get_satuan.satuan+'" readonly></td>'+
                         '<td class="text-right"><input type="hidden" name="temp_harga_satuan[]" value="'+element.harga_satuan+'"><input type="text" class="form-control form-control-sm angka" name="harga_satuan[]" value="'+element.harga_satuan+'" style="text-align: right" oninput="hitungSubTotal(this)" readonly></td>'+
+                        '<td class="text-right"><input type="hidden" name="temp_ppn[]" value="'+set_ppn+'"><input type="hidden" name="temp_margin[]" value="'+set_margin+'"><input type="hidden" name="temp_harga_jual[]" value="'+harga_jual+'"><input type="text" class="form-control form-control-sm angka" name="harga_jual[]" value="'+harga_jual+'" style="text-align: right" readonly></td>'+
                         '<td class="text-right"><input type="text" class="form-control form-control-sm angka" name="diskon[]" value="0" style="text-align: right" oninput="hitungSubTotal(this)" readonly></td>'+
                         '<td class="text-right"><input type="text" class="form-control form-control-sm angka" name="item_sub_total[]" value="'+parseFloat(element.harga_satuan) * parseFloat(element.qty)+'" class="form-control" style="text-align: right" readonly></td>'+
                         '</tr>';
@@ -183,10 +192,23 @@
         var currentRow=$(el).closest("tr");
         var jumlah = currentRow.find('td:eq(2) input[name="qty_diterima[]"]').val();
         var harga = currentRow.find('td:eq(5) input[name="harga_satuan[]"]').val();
-        var diskon = currentRow.find('td:eq(6) input[name="diskon[]"]').val();
+        var diskon = currentRow.find('td:eq(7) input[name="diskon[]"]').val();
         var sub_total = (parseFloat(jumlah) * parseFloat(harga)) - parseFloat(diskon);
-        currentRow.find('td:eq(7) input[name="item_sub_total[]"]').val(sub_total);
+        currentRow.find('td:eq(8) input[name="item_sub_total[]"]').val(sub_total);
+        currentRow.find('td:eq(6) input[name="harga_jual[]"]').val(getHargaJual(el));
         total();
+    }
+
+    function getHargaJual(el) {
+        const currentRow=$(el).closest("tr");
+        const harga = currentRow.find('td:eq(5) input[name="harga_satuan[]"]').val();
+        const set_ppn = currentRow.find('td:eq(6) input[name="temp_ppn[]"]').val();
+        const set_margin = currentRow.find('td:eq(6) input[name="temp_margin[]"]').val();
+        const ppn = harga * ((set_ppn / 100));
+        const nilai_ppn = parseInt(harga) + parseInt(ppn);
+        const nilai_margin = nilai_ppn * ((set_margin/100) * 100);
+        const harga_jual = parseInt(nilai_margin) + parseInt(nilai_ppn);
+        return harga_jual;
     }
 
     var total = function(){
@@ -234,7 +256,8 @@
         var currentRow=$(el).closest("tr");
         currentRow.find('td:eq(2) input[name="qty_diterima[]"]').val(currentRow.find('td:eq(3) input[name="qty_dipesan[]"]').val());
         currentRow.find('td:eq(5) input[name="harga_satuan[]"]').val(currentRow.find('td:eq(5) input[name="temp_harga_satuan[]"]').val());
-        currentRow.find('td:eq(6) input[name="diskon[]"]').val("0");
+        currentRow.find('td:eq(6) input[name="harga_jual[]"]').val(currentRow.find('td:eq(6) input[name="temp_harga_jual[]"]').val());
+        currentRow.find('td:eq(7) input[name="diskon[]"]').val("0");
         hitungSubTotal(el);
     }
 
@@ -243,7 +266,7 @@
         var currentRow=$(el).closest("tr");
         currentRow.find('td:eq(2) input[name="qty_diterima[]"]').attr('readonly', tf);
         currentRow.find('td:eq(5) input[name="harga_satuan[]"]').attr('readonly', tf);
-        currentRow.find('td:eq(6) input[name="diskon[]"]').attr('readonly', tf);
+        currentRow.find('td:eq(7) input[name="diskon[]"]').attr('readonly', tf);
     }
 
     function aktif_teks_foot(tf)
@@ -257,6 +280,13 @@
         $("#inp_uang_muka").attr("readonly", tf);
         $("#cara_bayar_1").attr("cara_bayar_1", 'checked');
         $("#tbl_submit").attr("disabled", tf);
+
+    }
+    function hapus_teks()
+    {
+        $("#receive_date").val("");
+        $("#po_select").val("");
+        $("#inp_remark").val("");
     }
     document.querySelector('#myForm').addEventListener('submit', function(event) {
         event.preventDefault(); // Prevent the form from submitting

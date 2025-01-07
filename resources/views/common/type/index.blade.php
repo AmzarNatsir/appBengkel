@@ -21,7 +21,6 @@
         <thead>
             <tr>
                 <th width="5%">No</th>
-                <th width="10%">Oid</th>
                 <th>Type Name</th>
                 <th>Model Name</th>
                 <th>Brand Name</th>
@@ -42,7 +41,6 @@
             autoWidth: true,
             columns: [
                 { data: 'no' },
-                { data: 'oid_type' },
                 { data: 'type_name' },
                 { data: 'model_name' },
                 { data: 'brand_name' },

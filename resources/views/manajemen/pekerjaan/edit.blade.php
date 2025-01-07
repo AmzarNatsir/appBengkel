@@ -15,7 +15,7 @@
         <button type="button" aria-hidden="true" class="close">
             <i class="fa fa-times"></i>
         </button>
-        <span><b> {!! session('status') !!} </b></span>
+        <span><b> {!! session('message') !!} </b></span>
     </div>
     @endif
     <div class="row">
@@ -68,12 +68,12 @@
                                         <label class="form-check-label" for="inp_aktif">
                                             Aktifkan Data
                                         </label>
-                                        <input type="hidden" name="tmp_aktif" value="{{ $res->aktif }}">
                                     </div>
                                 </div>
                             </div>
                         </div>
                         @endif
+                        <input type="hidden" name="tmp_aktif" value="{{ $res->aktif }}">
                         <div class="card-action">
                             <button type="submit" class="btn btn-success">Submit</button>
                         </div>

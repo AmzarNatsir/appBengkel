@@ -223,11 +223,9 @@ class ManajemenPekerjaanController extends Controller
             {
                 return redirect()->back()->withInput()->withErrors($validated);
             } else {
-
+                $aktif = $request->tmp_aktif;
                 if(isset($request->inp_aktif)) {
                     $aktif = 1;
-                } else {
-                    $aktif = $request->tmp_aktif;
                 }
                 PekerjaanModel::find($id)->update([
                     "kategori_id" => $request->kategori_pekerjaan,
@@ -236,7 +234,10 @@ class ManajemenPekerjaanController extends Controller
                     'aktif' => $aktif,
                     'updated_at' => $this->dateTimeInsert
                 ]);
-                return redirect('manajemen_pekerjaan/pekerjaan_edit/'.$id)->with(['status' => 'Update Successfully']);
+                return redirect('manajemen_pekerjaan/pekerjaan_edit/'.$id)->with([
+                    'status' => 'Success',
+                    'message' => 'Update Successfully'
+                ]);
             }
         } catch (QueryException $e) {
             Log::error($e->getMessage());

@@ -10,7 +10,7 @@
     <div class="d-flex align-items-left align-items-md-center flex-column flex-md-row pt-2 pb-4">
         <div>
             <h3 class="fw-bold mb-3">Customer</h3>
-            <h6 class="op-7 mb-2">List Customer</h6>
+            <h6 class="op-7 mb-2">Daftar Customer</h6>
         </div>
         <div class="ms-md-auto py-2 py-md-0">
             <a href="{{ route('customer.create') }}" class="btn btn-primary btn-round">Add New</a>
@@ -21,11 +21,10 @@
         <thead>
             <tr>
                 <th width="5%">No</th>
-                <th width="10%">Oid</th>
-                <th>Name</th>
-                <th>Address</th>
+                <th>Nama Customer</th>
+                <th>Alamat</th>
                 <th>Email</th>
-                <th>Phone</th>
+                <th>No. Telepon</th>
                 <th width="15%">Action</th>
             </tr>
         </thead>
@@ -43,7 +42,6 @@
             autoWidth: true,
             columns: [
                 { data: 'no' },
-                { data: 'oid_customer' },
                 { data: 'customer_name' },
                 { data: 'customer_address' },
                 { data: 'customer_email' },

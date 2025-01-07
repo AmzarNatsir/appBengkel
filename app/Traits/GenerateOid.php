@@ -13,6 +13,7 @@ use App\Models\CustomerModel;
 use App\Models\PartsModel;
 use App\Models\PurchaseOrderModel;
 use App\Models\ReceiveModel;
+use App\Models\ServiceModel;
 use App\Models\SupplierModel;
 use App\Models\VehicleModel;
 use PHPUnit\Event\TypeMap;
@@ -174,6 +175,19 @@ trait GenerateOid
                 $oidNew = $kode.sprintf('%03s', $nom);
             } else {
                 $no_urut_baru = substr($result->nomor_receive, 3, 3)+1;
+                $oidNew = $kode.sprintf('%03s', $no_urut_baru);
+            }
+        }
+
+        if($common=='sales')
+        {
+            $kode = "INV-";
+            $nom = 1;
+            $result = ServiceModel::orderBy('created_at', 'desc')->first();
+            if(empty($result->no_service)) {
+                $oidNew = $kode.sprintf('%03s', $nom);
+            } else {
+                $no_urut_baru = substr($result->no_service, 4, 3)+1;
                 $oidNew = $kode.sprintf('%03s', $no_urut_baru);
             }
         }

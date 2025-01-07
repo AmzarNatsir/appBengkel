@@ -9,6 +9,7 @@ use App\Models\common\JenisModel;
 use App\Models\common\ModelBrandModel;
 use App\Models\common\SatuanModel;
 use App\Models\common\TypeModel;
+use App\Models\RakModel;
 use App\Traits\GenerateOid;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -885,6 +886,114 @@ class CommonController extends Controller
             'satuan' => 'required'
         ],[
             'satuan.required' => "Satuan cannot be empty!"
+        ]);
+        return $validate;
+    }
+    //master rak
+    public function rak()
+    {
+        return view('common.rak.index');
+    }
+
+    public function rakData(Request $request)
+    {
+        $columns = ['created_at'];
+        $totalData = RakModel::count();
+        $search = $request->input('search.value');
+        $query = RakModel::select('*');
+        if(!empty($search)) {
+            $query->where(function($q) use ($search) {
+                $q->Where('nama_rak', 'like', "%{$search}%");
+            });
+        }
+        $totalFiltered = $query->count();
+        $query = $query->offset($request->input('start'))
+                      ->limit($request->input('length'))
+                        ->orderBy('id', 'asc')
+                      ->get();
+
+        $data = array();
+        if($query){
+            $counter = $request->input('start') + 1;
+            foreach($query as $r){
+                $btn = '<a class="btn btn-success btn-sm" href="'.url('common/rakShow',$r->id).'"><i class="fa fa-eye"></i></a>
+                  <a class="btn btn-primary btn-sm" href="'.url('common/rakEdit',$r->id).'"><i class="fa fa-edit"></i></a>
+                   <button type="button" value='.$r->id.' class="btn btn-danger btn-sm" onclick="konfirmHapus(this)"><i class="fa fa-times"></i></button>';
+                $Data['act'] = $btn;
+                $Data['id'] =  $r->id;
+                $Data['nama_rak'] = $r->nama_rak;
+                $Data['no'] = $counter;
+                $data[] = $Data;
+                $counter++;
+            }
+        }
+        return response()->json([
+            'draw' => intval($request->input('draw')),
+            'recordsTotal' => $totalData,
+            'recordsFiltered' => $totalFiltered,
+            'data' => $data
+        ]);
+    }
+    public function rakCreate()
+    {
+        return view('common.rak.create');
+    }
+    public function rakStore(Request $request)
+    {
+        $validated = $this->roles_rak($request);
+        if($validated->fails())
+        {
+            return redirect()->back()->withInput()->withErrors($validated);
+        } else {
+            RakModel::insert([
+                "nama_rak" => $request->nama_rak,
+                'created_at' => $this->dateTimeInsert
+            ]);
+            return redirect()->route('rak.create')->with(['status' => 'Successfully']);
+        }
+    }
+    public function rakShow($id)
+    {
+        $data = RakModel::find($id);
+        return view('common.rak.show', compact([
+            'data'
+        ]));
+    }
+    public function rakEdit($id)
+    {
+        $data = RakModel::find($id);
+        return view('common.rak.edit', compact([
+            'data'
+        ]));
+    }
+    public function rakUpdate(Request $request, $id)
+    {
+        $validated = $this->roles_rak($request);
+        if($validated->fails())
+        {
+            return redirect()->back()->withInput()->withErrors($validated);
+        } else {
+            RakModel::find($id)->update([
+                "nama_rak" => $request->nama_rak,
+            ]);
+            return redirect('common/rakEdit/'.$id)->with(['status' => 'Update Successfully']);
+        }
+    }
+    public function rakDestroy($id)
+    {
+        $brand = RakModel::find($id);
+        $brand->delete();
+        return response()->json([
+            'success' => true
+        ]);
+    }
+
+    function roles_rak($request)
+    {
+        $validate = Validator::make($request->all(), [
+            'nama_rak' => 'required'
+        ],[
+            'nama_rak.required' => "Nama Rak cannot be empty!"
         ]);
         return $validate;
     }

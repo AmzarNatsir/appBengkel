@@ -21,8 +21,7 @@
         <thead>
             <tr>
                 <th width="5%">No</th>
-                <th width="10%">Oid</th>
-                <th width="10%">Plat Number</th>
+                <th width="10%">No.Polisi</th>
                 <th width="20%">Unit</th>
                 <th width="10%">Jenis</th>
                 <th width="10%">Color</th>
@@ -45,7 +44,6 @@
             autoWidth: true,
             columns: [
                 { data: 'no' },
-                { data: 'oid_vehicle' },
                 { data: 'plat_number' },
                 { data: 'unit' },
                 { data: 'jenis' },

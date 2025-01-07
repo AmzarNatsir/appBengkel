@@ -6,6 +6,9 @@ use App\Models\common\BrandModel;
 use App\Models\common\JenisModel;
 use App\Models\common\SatuanModel;
 use App\Models\PartsModel;
+use App\Models\RakModel;
+use App\Models\ReceiveDetailModel;
+use App\Models\ServicePartsModel;
 use App\Traits\Converts;
 use App\Traits\GenerateOid;
 use App\Traits\HasUpload;
@@ -41,7 +44,8 @@ class PartsController extends Controller
         $query = PartsModel::with([
             'getSatuan',
             'getJenis',
-            'getBrand'
+            'getBrand',
+            'getRak'
         ])->select('*');
         if(!empty($search)) {
             $query->where(function($q) use ($search) {
@@ -58,8 +62,8 @@ class PartsController extends Controller
         if($query){
             $counter = $request->input('start') + 1;
             foreach($query as $r){
-                $btn = '<a class="btn btn-success btn-sm" href="'.url('parts/show',$r->id).'"><i class="fa fa-eye"></i></a>
-                  <a class="btn btn-primary btn-sm" href="'.url('parts/edit',$r->id).'"><i class="fa fa-edit"></i></a>
+                $btn = '<a class="btn btn-success btn-sm" href="'.url('manajemen_stok/show',$r->id).'"><i class="fa fa-eye"></i></a>
+                  <a class="btn btn-primary btn-sm" href="'.url('manajemen_stok/edit',$r->id).'"><i class="fa fa-edit"></i></a>
                    <button type="button" value='.$r->id.' class="btn btn-danger btn-sm" onclick="konfirmHapus(this)"> <i class="fa fa-times"></i></button>';
                 $Data['act'] = $btn;
                 $Data['id'] =  $r->id;
@@ -68,6 +72,7 @@ class PartsController extends Controller
                 $Data['satuan'] = $r->getSatuan->satuan;
                 $Data['jenis'] = $r->getJenis->jenis;
                 $Data['brand'] = $r->getBrand->brand_name;
+                $Data['rak'] = (empty($r->id_rak)) ? "" : $r->getRak->nama_rak;
                 $Data['stok'] = $r->stok_akhir;
                 $Data['harga_beli'] = "Rp. ".Converts::conver_double_to_money($r->harga_beli);
                 $Data['harga_jual'] = "Rp. ".Converts::conver_double_to_money($r->harga_jual);
@@ -89,7 +94,8 @@ class PartsController extends Controller
         $data = [
             'list_satuan' => SatuanModel::whereIn('crud', ['I', 'U'])->orderBy('oid_satuan')->get(),
             'list_jenis' => JenisModel::whereIn('crud', ['I', 'U'])->orderBy('oid_jenis')->get(),
-            'list_brand' => BrandModel::whereIn('crud', ['I', 'U'])->orderBy('oid_brand')->get()
+            'list_brand' => BrandModel::whereIn('crud', ['I', 'U'])->orderBy('oid_brand')->get(),
+            'list_rak' => RakModel::latest()->get()
         ];
         return view('parts.create', $data);
     }
@@ -114,6 +120,7 @@ class PartsController extends Controller
                     'id_satuan' => $request->satuan_select,
                     'id_jenis' => $request->jenis_select,
                     'id_brand' => $request->brand_select,
+                    'id_rak' => $request->rak_select,
                     'stok_awal' => Converts::convert_money_to_double($request->inp_stok_awal),
                     'stok_akhir' => Converts::convert_money_to_double($request->inp_stok_akhir),
                     'harga_beli' => Converts::convert_money_to_double($request->inp_harga_beli),
@@ -145,7 +152,8 @@ class PartsController extends Controller
             'main' => PartsModel::find($id),
             'list_satuan' => SatuanModel::whereIn('crud', ['I', 'U'])->orderBy('oid_satuan')->get(),
             'list_jenis' => JenisModel::whereIn('crud', ['I', 'U'])->orderBy('oid_jenis')->get(),
-            'list_brand' => BrandModel::whereIn('crud', ['I', 'U'])->orderBy('oid_brand')->get()
+            'list_brand' => BrandModel::whereIn('crud', ['I', 'U'])->orderBy('oid_brand')->get(),
+            'list_rak' => RakModel::latest()->get()
         ];
         return view('parts.show', $data);
     }
@@ -156,7 +164,8 @@ class PartsController extends Controller
             'main' => PartsModel::find($id),
             'list_satuan' => SatuanModel::whereIn('crud', ['I', 'U'])->orderBy('oid_satuan')->get(),
             'list_jenis' => JenisModel::whereIn('crud', ['I', 'U'])->orderBy('oid_jenis')->get(),
-            'list_brand' => BrandModel::whereIn('crud', ['I', 'U'])->orderBy('oid_brand')->get()
+            'list_brand' => BrandModel::whereIn('crud', ['I', 'U'])->orderBy('oid_brand')->get(),
+            'list_rak' => RakModel::latest()->get()
         ];
         return view('parts.edit', $data);
     }
@@ -184,6 +193,7 @@ class PartsController extends Controller
                     'id_satuan' => $request->satuan_select,
                     'id_jenis' => $request->jenis_select,
                     'id_brand' => $request->brand_select,
+                    'id_rak' => $request->rak_select,
                     'stok_awal' => Converts::convert_money_to_double($request->inp_stok_awal),
                     'stok_akhir' => Converts::convert_money_to_double($request->inp_stok_akhir),
                     'harga_beli' => Converts::convert_money_to_double($request->inp_harga_beli),
@@ -235,12 +245,14 @@ class PartsController extends Controller
             'part_name' => 'required',
             'satuan_select' => 'required',
             'jenis_select' => 'required',
-            'brand_select' => 'required'
+            'brand_select' => 'required',
+            'rak_select' => 'required'
         ],[
-            'part_name.required' => "Part name cannot be empty!",
-            'satuan_select.required' => "Satuan cannot be empty!",
-            'jenis_select.required' => "Jenis cannot be empty!",
-            'brand_select.required' => "Brand cannot be empty!",
+            'part_name.required' => "Nama part tidak boleh kosong!",
+            'satuan_select.required' => "Satuan tidak boleh kosong!",
+            'jenis_select.required' => "Jenis tidak boleh kosong!",
+            'brand_select.required' => "Brand tidak boleh kosong!",
+            'rak_select.required' => "Rak tidak boleh kosong!",
         ]);
         return $validate;
     }
@@ -263,11 +275,47 @@ class PartsController extends Controller
                 "part_name" => $list->part_name,
                 'stok_akhir' => $list->stok_akhir,
                 'harga_jual' => $list->harga_jual,
-                'satuan' => $list->getSatuan->satuan
+                'satuan' => $list->getSatuan->satuan,
+                'gambar' => $list->gambar
             );
         }
         return response()
             ->json($response)
             ->withCallback($request->input('callback'));
+    }
+    public function parts_autocomplete_stock_card(Request $request)
+    {
+        $query = $request->get('query');
+        $results = PartsModel::with([
+            'getSatuan'
+        ])
+            ->where('part_name', 'LIKE', "%{$query}%")
+            ->limit(10)
+            ->get(); // Adjust as needed
+        $response = array();
+        foreach($results as $list){
+            $response[] = array(
+                "value"=>$list->id,
+                "label"=> "[".$list->oid_part." | ".$list->part_name."]",
+                "part_name" => $list->part_name,
+                'stok_awal' => $list->stok_awal,
+                'stok_akhir' => $list->stok_akhir,
+                'satuan' => $list->getSatuan->satuan,
+                'gambar' => $list->gambar,
+                'total_masuk' => ReceiveDetailModel::where('id_part', $list->oid_part)->get()->sum('terima'),
+                'total_keluar' => ServicePartsModel::where('part_id', $list->oid_part)->get()->sum('jumlah')
+            );
+        }
+
+        // dd($response);
+        return response()
+            ->json($response)
+            ->withCallback($request->input('callback'));
+    }
+
+    //kartu stok
+    public function kartu_stok()
+    {
+        return view('parts.kartu_stok.index');
     }
 }

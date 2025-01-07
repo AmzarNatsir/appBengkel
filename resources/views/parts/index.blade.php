@@ -1,5 +1,4 @@
 @extends('partial.app')
-
 @section('content')
 <div class="page-inner">
     @if (Session::has('status'))
@@ -21,12 +20,12 @@
     @endif
     <div class="d-flex align-items-left align-items-md-center flex-column flex-md-row pt-2 pb-4">
         <div>
-            <h3 class="fw-bold mb-3">Parts</h3>
-            <h6 class="op-7 mb-2">List Parts</h6>
+            <h3 class="fw-bold mb-3">Manajemen Stok</h3>
+            <h6 class="op-7 mb-2">Daftar Stok</h6>
         </div>
         <div class="ms-md-auto py-2 py-md-0">
-            <a href="{{ route('parts.index') }}" class="btn btn-primary btn-round">Refresh</a>
-            <a href="{{ route('parts.create') }}" class="btn btn-success btn-round">Add New</a>
+            <a href="{{ route('manajemen_stok.stok.index') }}" class="btn btn-primary btn-round">Refresh</a>
+            <a href="{{ route('manajemen_stok.stok.create') }}" class="btn btn-success btn-round">Tambah Data</a>
         </div>
     </div>
     <div class="row table-responsive">
@@ -34,15 +33,15 @@
         <thead>
             <tr>
                 <th width="5%">No</th>
-                <th width="10%">Oid</th>
-                <th>Nama Part</th>
+                <th>Nama Stok</th>
                 <th width="10%">Satuan</th>
                 <th width="10%">Jenis</th>
                 <th width="15%">Brand</th>
                 <th width="10%">Stok</th>
                 <th width="10%">Harga Beli</th>
                 <th width="10%">Harga Jual</th>
-                <th width="15%">Action</th>
+                <th width="10%">Rak</th>
+                <th width="15%">Opsi</th>
             </tr>
         </thead>
         <tbody></tbody>
@@ -55,13 +54,12 @@
 
         $('.list_data').DataTable().destroy();
         $(".list_data").DataTable({
-            ajax: "{{ route('parts.data') }}",
+            ajax: "{{ route('manajemen_stok.stok.data') }}",
             processing: true,
             serverSide: true,
             autoWidth: true,
             columns: [
                 { data: 'no' },
-                { data: 'oid_part' },
                 { data: 'part_name' },
                 { data: 'satuan' },
                 { data: 'jenis' },
@@ -69,6 +67,7 @@
                 { data: 'stok' },
                 { data: 'harga_beli' },
                 { data: 'harga_jual' },
+                { data: 'rak' },
                 { data: 'act' }
             ],
             responsive: true,
@@ -89,7 +88,7 @@
             if (willDelete)
             {
                 $.ajax({
-                    url: "{{ url('parts/destroy') }}/"+$(el).val(),
+                    url: "{{ url('manajemen_stok/destroy') }}/"+$(el).val(),
                     type: "GET",
                     success:function(response){
                         swal('Success! The selected data has been successfully deleted!', {
