@@ -8,6 +8,7 @@ use App\Models\PurchaseOrderDetailModel;
 use App\Models\PurchaseOrderModel;
 use App\Models\ReceiveDetailModel;
 use App\Models\ReceiveModel;
+use App\Models\ServiceModel;
 use App\Traits\Converts;
 use App\Traits\GenerateOid;
 use Illuminate\Database\QueryException;
@@ -170,6 +171,48 @@ class PenerimaanController extends Controller
             'detail' => ReceiveDetailModel::with(['getParts', 'getParts.getSatuan'])->where('id_head', $id)->get()
         ];
         return view('penerimaan.detail', $data);
+    }
+
+    //
+    public function getPenerimaanStok(Request $request)
+    {
+        $stok_id = $request->stok_id;
+        $data = ReceiveModel::select([
+                    'tb_receive.nomor_receive',
+                    'tb_receive.tanggal_receive',
+                    'tb_receive_detail.terima',
+                    'tb_receive_detail.harga_satuan',
+                    'tb_receive_detail.diskon',
+                    'tb_receive_detail.sub_total',
+                    'tb_com_satuan.satuan'])
+                        ->leftJoin('tb_receive_detail', 'tb_receive_detail.id_head', '=', 'tb_receive.id')
+                        ->leftJoin('tb_ms_parts', 'tb_receive_detail.id_part', '=', 'tb_ms_parts.id')
+                        ->leftJoin('tb_com_satuan', 'tb_ms_parts.id_satuan', '=', 'tb_com_satuan.id')
+                        ->where('tb_receive_detail.id_part', $stok_id)
+                        ->orderBy('tb_receive.tanggal_receive')->get();
+        return response()->json([
+            'respon' => $data
+        ]);
+    }
+
+    public function getPenjualanStok(Request $request)
+    {
+        $stok_id = $request->stok_id;
+        $data = ServiceModel::select([
+                    'tb_service.tgl_service',
+                    'tb_service.no_service',
+                    'tb_service_parts.jumlah',
+                    'tb_service_parts.harga',
+                    'tb_service_parts.sub_total',
+                    'tb_com_satuan.satuan'])
+            ->leftJoin('tb_service_parts', 'tb_service_parts.service_id', '=', 'tb_service.id')
+            ->leftJoin('tb_ms_parts', 'tb_service_parts.part_id', '=', 'tb_ms_parts.id')
+            ->leftJoin('tb_com_satuan', 'tb_ms_parts.id_satuan', '=', 'tb_com_satuan.id')
+            ->where('tb_service_parts.part_id', $stok_id)
+            ->orderBy('tb_service.tgl_service')->get();
+        return response()->json([
+            'respon' => $data
+        ]);
     }
 
 }

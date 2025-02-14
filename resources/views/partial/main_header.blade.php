@@ -4,7 +4,7 @@
         <div class="logo-header" data-background-color="dark">
             <a href="{{ route('home') }}" class="logo">
                 <img
-                src="{{ asset('assets/img/logo_app.jpg') }}"
+                src="{{ asset('assets/img/logo_new.png') }}"
                 alt="navbar brand"
                 class="navbar-brand"
                 height="50"

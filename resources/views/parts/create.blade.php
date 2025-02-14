@@ -40,7 +40,7 @@
                         <div class="col-md-12 col-lg-12">
                             <div class="form-group">
                                 <label for="part_name">Nama Stok</label>
-                                <input type="text" class="form-control form-control-sm  @error('part_name') is-invalid @enderror" name="part_name" id="part_name">
+                                <input type="text" class="form-control  @error('part_name') is-invalid @enderror" name="part_name" id="part_name">
                                 @if ($errors->has('part_name'))
                                 <div class="invalid-feedback">{{ $errors->first('part_name') }}</div>
                                 @endif
@@ -108,25 +108,25 @@
                         <div class="col-md-12 col-lg-3">
                             <div class="form-group">
                                 <label for="inp_stok_awal">Stok Awal</label>
-                                <input type="text" class="form-control form-control-sm angka" name="inp_stok_awal" id="inp_stok_awal" value="0" style="text-align: right" oninput="toStockAkhir(this)" onblur="checkNull(this)" min="0" onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))">
+                                <input type="text" class="form-control angka" name="inp_stok_awal" id="inp_stok_awal" value="0" style="text-align: right" oninput="toStockAkhir(this)" onblur="checkNull(this)" min="0" onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))">
                             </div>
                         </div>
                         <div class="col-md-12 col-lg-3">
                             <div class="form-group">
                                 <label for="inp_stok_akhir">Stok Akhir</label>
-                                <input type="text" class="form-control form-control-sm angka" name="inp_stok_akhir" id="inp_stok_akhir" value="0" style="text-align: right" readonly>
+                                <input type="text" class="form-control angka" name="inp_stok_akhir" id="inp_stok_akhir" value="0" style="text-align: right" readonly>
                             </div>
                         </div>
                         <div class="col-md-12 col-lg-3">
                             <div class="form-group">
                                 <label for="inp_harga_beli">Harga Beli</label>
-                                <input type="text" class="form-control form-control-sm angka" name="inp_harga_beli" id="inp_harga_beli" value="0" style="text-align: right" onblur="checkNull(this)">
+                                <input type="text" class="form-control angka" name="inp_harga_beli" id="inp_harga_beli" value="0" style="text-align: right" onblur="checkNull(this)">
                             </div>
                         </div>
                         <div class="col-md-12 col-lg-3">
                             <div class="form-group">
                                 <label for="inp_harga_jual">Harga Jual</label>
-                                <input type="text" class="form-control form-control-sm angka" name="inp_harga_jual" id="inp_harga_jual" value="0" style="text-align: right" onblur="checkNull(this)">
+                                <input type="text" class="form-control angka" name="inp_harga_jual" id="inp_harga_jual" value="0" style="text-align: right" onblur="checkNull(this)">
                             </div>
                         </div>
                     </div>

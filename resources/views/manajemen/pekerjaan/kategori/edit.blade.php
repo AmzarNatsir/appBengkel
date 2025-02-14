@@ -32,7 +32,7 @@
                             <div class="col-md-12 col-lg-12">
                                 <div class="form-group">
                                     <label for="kategori_pekerjaan">Kategori Pekerjaan</label>
-                                    <input type="text" name="kategori_pekerjaan" id="kategori_pekerjaan" class="form-control form-control-sm @error('kategori_pekerjaan') is-invalid @enderror" value="{{ $res->kategori_pekerjaan }}">
+                                    <input type="text" name="kategori_pekerjaan" id="kategori_pekerjaan" class="form-control @error('kategori_pekerjaan') is-invalid @enderror" value="{{ $res->kategori_pekerjaan }}">
                                     @if ($errors->has('kategori_pekerjaan'))
                                     <div class="invalid-feedback">{{ $errors->first('kategori_pekerjaan') }}</div>
                                     @endif

@@ -31,7 +31,7 @@
                             <div class="col-md-12 col-lg-12">
                                 <div class="form-group">
                                     <label for="brand_name">Brand</label>
-                                    <input type="text" name="brand_name" id="brand_name" class="form-control form-control-sm @error('brand_name') is-invalid @enderror">
+                                    <input type="text" name="brand_name" id="brand_name" class="form-control @error('brand_name') is-invalid @enderror">
                                     @if ($errors->has('brand_name'))
                                     <div class="invalid-feedback">{{ $errors->first('brand_name') }}</div>
                                     @endif

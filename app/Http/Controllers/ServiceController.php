@@ -113,10 +113,16 @@ class ServiceController extends Controller
                         }
                     }
                 }
-                return redirect()->route('service.baru')->with([
+                return response()->json([
                     'status' => 'success',
-                    'message' => 'Successfully'
+                    'message' => 'Successfully',
+                    'LastID' => $serviceID
                 ]);
+                // return redirect()->route('service.baru')->with([
+                //     'status' => 'success',
+                //     'message' => 'Successfully',
+                //     'LastID' => $serviceID
+                // ]);
             }
         } catch (QueryException $e) {
             Log::error($e->getMessage());
@@ -150,6 +156,8 @@ class ServiceController extends Controller
     public function getData(Request $request)
     {
         $columns = ['created_at'];
+        $whereTglAwal = $request->tgl_awal;
+        $whereTglAkhir = $request->tgl_akhir;
         $totalData = ServiceModel::count();
         $search = $request->input('search.value');
         $query = ServiceModel::with([
@@ -185,7 +193,7 @@ class ServiceController extends Controller
                 $Data['tgl_service'] = $r->tgl_service;
                 $Data['customer'] = $r->getUnit->getCustomer->customer_name;
                 $Data['no_polisi'] = $r->getUnit->plat_number;
-                $Data['unit'] = $r->getUnit->getType->getBrand->brand_name." ".$r->getUnit->getType->getModel->model_name." ".$r->getUnit->getType->type_name;
+                $Data['unit'] = ((empty($r->getUnit->getType->getBrand->brand_name)) ? "" : $r->getUnit->getType->getBrand->brand_name)." ".((empty($r->getUnit->getType->getModel->model_name)) ? "" : $r->getUnit->getType->getModel->model_name)." ".((empty($r->getUnit->getType->type_name)) ? "" : $r->getUnit->getType->type_name);
                 $Data['t_pekerjaan'] = "Rp. ".Converts::conver_double_to_money($r->total_pekerjaan);
                 $Data['t_parts'] = "Rp. ".Converts::conver_double_to_money($r->total_parts);
                 $Data['diskon'] = "Rp. ".Converts::conver_double_to_money($r->diskon);

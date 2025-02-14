@@ -31,7 +31,7 @@
                             <div class="col-md-12 col-lg-12">
                                 <div class="form-group">
                                     <label for="satuan">Nama Rak</label>
-                                    <input type="text" name="nama_rak" id="nama_rak" class="form-control form-control-sm @error('nama_rak') is-invalid @enderror" value="{{ old('nama_rak') }}">
+                                    <input type="text" name="nama_rak" id="nama_rak" class="form-control @error('nama_rak') is-invalid @enderror" value="{{ old('nama_rak') }}">
                                     @if ($errors->has('nama_rak'))
                                     <div class="invalid-feedback">{{ $errors->first('nama_rak') }}</div>
                                     @endif

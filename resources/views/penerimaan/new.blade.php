@@ -225,6 +225,11 @@
         $("#inp_total").val(total);
         $("#inp_total_net").val(n_total);
         // $("#lbl_total").html(nf.format(total));
+        if(parseFloat(n_total) > 0) {
+            $("#tbl_submit").attr("disabled", false);
+        } else {
+            $("#tbl_submit").attr("disabled", true);
+        }
     }
 
     function to_null(el)

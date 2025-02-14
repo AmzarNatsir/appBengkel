@@ -9,6 +9,7 @@ use App\Models\common\JenisModel;
 use App\Models\common\ModelBrandModel;
 use App\Models\common\SatuanModel;
 use App\Models\common\TypeModel;
+use App\Models\PartsModel;
 use App\Models\RakModel;
 use App\Traits\GenerateOid;
 use Illuminate\Http\Request;
@@ -32,9 +33,9 @@ class CommonController extends Controller
     public function brandData(Request $request)
     {
         $columns = ['created_at'];
-        $totalData = BrandModel::count();
+        $totalData = BrandModel::whereNull('user_del')->count();
         $search = $request->input('search.value');
-        $query = BrandModel::select('*');
+        $query = BrandModel::select('*')->whereNull('user_del');
         if(!empty($search)) {
             $query->where(function($q) use ($search) {
                 $q->Where('brand_name', 'like', "%{$search}%");
@@ -121,7 +122,8 @@ class CommonController extends Controller
     public function brandDestroy($id)
     {
         $brand = BrandModel::find($id);
-        $brand->delete();
+        $brand->user_del = auth()->user()->id;
+        $brand->update();
         return response()->json([
             'success' => true
         ]);
@@ -141,7 +143,7 @@ class CommonController extends Controller
     {
         $term = trim($request->q);
 
-        $brand = BrandModel::where('brand_name', 'LIKE', '%'.$term.'%')
+        $brand = BrandModel::whereNull('user_del')->where('brand_name', 'LIKE', '%'.$term.'%')
         ->get(['oid_brand', 'brand_name as text']);
         return ['results' => $brand];
     }
@@ -154,11 +156,11 @@ class CommonController extends Controller
     public function modelData(Request $request)
     {
         $columns = ['created_at'];
-        $totalData = ModelBrandModel::count();
+        $totalData = ModelBrandModel::whereNull('user_del')->count();
         $search = $request->input('search.value');
         $query = ModelBrandModel::with([
             'getBrand'
-        ])->select('*');
+        ])->select('*')->whereNull('user_del');
         if(!empty($search)) {
             $query->where(function($q) use ($search) {
                 $q->Where('model_name', 'like', "%{$search}%");
@@ -197,7 +199,7 @@ class CommonController extends Controller
     public function modelCreate()
     {
         $data = [
-            'listBrand' => BrandModel::whereNotIn('crud', ['D'])->orderby('oid_brand')->get()
+            'listBrand' => BrandModel::whereNull('user_del')->orderby('oid_brand')->get()
         ];
         return view('common.model.create', $data);
     }
@@ -234,7 +236,7 @@ class CommonController extends Controller
     {
         $data = [
             'data' => ModelBrandModel::find($id),
-            'listBrand' => BrandModel::whereNotIn('crud', ['D'])->orderby('oid_brand')->get()
+            'listBrand' => BrandModel::whereNUll('user_del')->orderby('oid_brand')->get()
         ];
         return view('common.model.edit', $data);
     }
@@ -257,7 +259,8 @@ class CommonController extends Controller
     public function modelDestroy($id)
     {
         $model = ModelBrandModel::find($id);
-        $model->delete();
+        $model->user_del = auth()->user()->id;
+        $model->update();
         return response()->json([
             'success' => true
         ]);
@@ -284,7 +287,7 @@ class CommonController extends Controller
         //     'results' => $jabatan
         // ]);
 
-        $brand = ModelBrandModel::where('oid_brand', $term)
+        $brand = ModelBrandModel::whereNull('user_del')->where('oid_brand', $term)
         ->get(['oid_model', 'model_name as text']);
         return ['results' => $brand];
 
@@ -298,12 +301,12 @@ class CommonController extends Controller
     public function typeData(Request $request)
     {
         $columns = ['created_at'];
-        $totalData = TypeModel::count();
+        $totalData = TypeModel::whereNull('user_del')->count();
         $search = $request->input('search.value');
         $query = TypeModel::with([
             'getBrand',
             'getModel'
-        ])->select('*');
+        ])->select('*')->whereNull('user_del');
         if(!empty($search)) {
             $query->where(function($q) use ($search) {
                 $q->Where('type_name', 'like', "%{$search}%");
@@ -343,7 +346,7 @@ class CommonController extends Controller
     public function typeCreate()
     {
         $data = [
-            'listBrand' => BrandModel::whereNotIn('crud', ['D'])->orderby('oid_brand')->get()
+            'listBrand' => BrandModel::whereNull('user_del')->orderby('oid_brand')->get()
         ];
         return view('common.type.create', $data);
     }
@@ -383,8 +386,8 @@ class CommonController extends Controller
         $main = TypeModel::find($id);
         $data = [
             'data' => $main,
-            'listBrand' => BrandModel::whereNotIn('crud', ['D'])->orderby('oid_brand')->get(),
-            'listModel' => ModelBrandModel::whereNotIn('crud', ['D'])->where('oid_model', $main->oid_model)->orderby('oid_model')->get()
+            'listBrand' => BrandModel::whereNull('user_del')->orderby('oid_brand')->get(),
+            'listModel' => ModelBrandModel::whereNull('user_del')->where('oid_model', $main->oid_model)->orderby('oid_model')->get()
         ];
         return view('common.type.edit', $data);
     }
@@ -409,7 +412,8 @@ class CommonController extends Controller
     public function typeDestroy($id)
     {
         $model = TypeModel::find($id);
-        $model->delete();
+        $model->user_del = auth()->user()->id;
+        $model->update();
         return response()->json([
             'success' => true
         ]);
@@ -552,9 +556,9 @@ class CommonController extends Controller
     public function colorData(Request $request)
     {
         $columns = ['created_at'];
-        $totalData = ColorModel::count();
+        $totalData = ColorModel::whereNull('user_del')->count();
         $search = $request->input('search.value');
-        $query = ColorModel::select('*');
+        $query = ColorModel::select('*')->whereNull('user_del');
         if(!empty($search)) {
             $query->where(function($q) use ($search) {
                 $q->Where('color_idn', 'like', "%{$search}%");
@@ -644,7 +648,8 @@ class CommonController extends Controller
     public function colorDestroy($id)
     {
         $brand = ColorModel::find($id);
-        $brand->delete();
+        $brand->user_del = auth()->user()->id;
+        $brand->update();
         return response()->json([
             'success' => true
         ]);
@@ -671,9 +676,9 @@ class CommonController extends Controller
     public function jenisData(Request $request)
     {
         $columns = ['created_at'];
-        $totalData = JenisModel::count();
+        $totalData = JenisModel::whereNull('user_del')->count();
         $search = $request->input('search.value');
-        $query = JenisModel::select('*');
+        $query = JenisModel::select('*')->whereNull('user_del');
         if(!empty($search)) {
             $query->where(function($q) use ($search) {
                 $q->Where('jenis', 'like', "%{$search}%");
@@ -760,7 +765,8 @@ class CommonController extends Controller
     public function jenisDestroy($id)
     {
         $brand = JenisModel::find($id);
-        $brand->delete();
+        $brand->user_del = auth()->user()->id;
+        $brand->update();
         return response()->json([
             'success' => true
         ]);
@@ -785,9 +791,9 @@ class CommonController extends Controller
     public function satuanData(Request $request)
     {
         $columns = ['created_at'];
-        $totalData = SatuanModel::count();
+        $totalData = SatuanModel::whereNull('user_del')->count();
         $search = $request->input('search.value');
-        $query = SatuanModel::select('*');
+        $query = SatuanModel::select('*')->whereNull('user_del');
         if(!empty($search)) {
             $query->where(function($q) use ($search) {
                 $q->Where('satuan', 'like', "%{$search}%");
@@ -874,7 +880,8 @@ class CommonController extends Controller
     public function satuanDestroy($id)
     {
         $brand = SatuanModel::find($id);
-        $brand->delete();
+        $brand->user_del = auth()->user()->id;
+        $brand->update();
         return response()->json([
             'success' => true
         ]);
@@ -981,11 +988,19 @@ class CommonController extends Controller
     }
     public function rakDestroy($id)
     {
-        $brand = RakModel::find($id);
-        $brand->delete();
-        return response()->json([
-            'success' => true
-        ]);
+        $checkUsed = PartsModel::where('id_rak', $id)->get()->count();
+        if($checkUsed==0)
+        {
+            $brand = RakModel::find($id);
+            $brand->delete();
+            return response()->json([
+                'success' => true
+            ]);
+        } else {
+            return response()->json([
+                'success' => false
+            ]);
+        }
     }
 
     function roles_rak($request)

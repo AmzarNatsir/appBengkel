@@ -133,14 +133,14 @@ class PartsController extends Controller
                     'created_at' => $this->dateTimeInsert
                 ];
                 PartsModel::insert($data);
-                return redirect()->route('parts.create')->with([
+                return redirect()->route('manajemen_stok.stok.create')->with([
                     'status' => 'success',
                     'message' => 'Successfully'
                 ]);
             }
         } catch (Throwable $e) {
             Log::error($e->getMessage());
-            return redirect()->route('parts.create')->with([
+            return redirect()->route('manajemen_stok.stok.create')->with([
                 'status' => 'error',
                 'message' => $e->getMessage()
             ]);
@@ -206,14 +206,14 @@ class PartsController extends Controller
                     'updated_at' => $this->dateTimeInsert
                 ];
                 PartsModel::find($id)->update($data);
-                return redirect()->route('parts.index')->with([
+                return redirect()->route('manajemen_stok.stok.index')->with([
                     'status' => 'success',
                     'message' => 'Successfully'
                 ]);
             }
         } catch (Throwable $e) {
             Log::error($e->getMessage());
-            return redirect()->route('parts.index')->with([
+            return redirect()->route('manajemen_stok.stok.index')->with([
                 'status' => 'error',
                 'message' => $e->getMessage()
             ]);
@@ -260,7 +260,7 @@ class PartsController extends Controller
     //tools
     public function autocomplete_parts(Request $request)
     {
-        $query = $request->get('query');
+        $query = $request->get('search');
         $results = PartsModel::with([
             'getSatuan'
         ])
@@ -285,7 +285,7 @@ class PartsController extends Controller
     }
     public function parts_autocomplete_stock_card(Request $request)
     {
-        $query = $request->get('query');
+        $query = $request->get('search');
         $results = PartsModel::with([
             'getSatuan'
         ])
@@ -302,8 +302,8 @@ class PartsController extends Controller
                 'stok_akhir' => $list->stok_akhir,
                 'satuan' => $list->getSatuan->satuan,
                 'gambar' => $list->gambar,
-                'total_masuk' => ReceiveDetailModel::where('id_part', $list->oid_part)->get()->sum('terima'),
-                'total_keluar' => ServicePartsModel::where('part_id', $list->oid_part)->get()->sum('jumlah')
+                'total_masuk' => ReceiveDetailModel::where('id_part', $list->id)->get()->sum('terima'),
+                'total_keluar' => ServicePartsModel::where('part_id', $list->id)->get()->sum('jumlah')
             );
         }
 

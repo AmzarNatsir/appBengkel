@@ -49,12 +49,12 @@
         <table width="100%">
             <tr>
                 <td align="left" style="width: 50%;">
-                <img src="{{ public_path('assets/img/logo_app.jpg') }}" alt="Logo" width="100px" height="auto" class="logo"/>
+                <img src="{{ public_path('assets/img/logo_new.png') }}" alt="Logo" width="100px" height="auto" class="logo"/>
                 </td>
                 <td align="right" style="width: 50%;">
                     <h2>PATTALLASSANG VARIASI</h2>
                     {{-- <pre> --}}
-                        JL. POROS PATTALLASSANG - GOWA
+                        JL. H.M YASIN LIMPO NO.46 SAMATA - GOWA
                     {{-- </pre> --}}
                 </td>
             </tr>

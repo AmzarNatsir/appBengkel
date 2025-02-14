@@ -63,13 +63,19 @@
                     url: "{{ url('manajemen_pekerjaan/kategori_pekerjaan_destroy') }}/"+$(el).val(),
                     type: "GET",
                     success:function(response){
-                        swal('Success! The selected data has been successfully deleted!', {
+                        if(response.success==true) {
+                            swal('Success! The selected data has been successfully deleted!', {
                             icon: 'success',
                             buttons: false,
                             timer: 2000
-                        }).then(() => {
-                            window.location.reload(true);
-                        });
+                            }).then(() => {
+                                window.location.reload(true);
+                            });
+                        } else {
+                            swal('Warning! Selected data failed to delete!', {
+                                icon: 'warning',
+                            });
+                        }
                     }
                 });
             } else {

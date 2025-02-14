@@ -34,10 +34,10 @@
             <tr>
                 <th width="5%">No</th>
                 <th>Nama Stok</th>
-                <th width="10%">Satuan</th>
                 <th width="10%">Jenis</th>
                 <th width="15%">Brand</th>
                 <th width="10%">Stok</th>
+                <th width="10%">Satuan</th>
                 <th width="10%">Harga Beli</th>
                 <th width="10%">Harga Jual</th>
                 <th width="10%">Rak</th>
@@ -61,10 +61,10 @@
             columns: [
                 { data: 'no' },
                 { data: 'part_name' },
-                { data: 'satuan' },
                 { data: 'jenis' },
                 { data: 'brand' },
                 { data: 'stok' },
+                { data: 'satuan' },
                 { data: 'harga_beli' },
                 { data: 'harga_jual' },
                 { data: 'rak' },

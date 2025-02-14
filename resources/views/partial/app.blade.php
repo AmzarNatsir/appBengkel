@@ -4,7 +4,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <title>PATTALLASSANG VARIASI</title>
         <meta content="width=device-width, initial-scale=1.0, shrink-to-fit=no" name="viewport"/>
-        <link rel="icon" href="{{ asset('assets/img/kaiadmin/favicon.ico') }}" type="image/x-icon"/>
+        <link rel="icon" href="{{ asset('assets/img/logo_new.png') }}" type="image/x-icon"/>
         <!-- Fonts and icons -->
         <script src="{{ asset('assets/js/plugin/webfont/webfont.min.js') }}"></script>
         <script>

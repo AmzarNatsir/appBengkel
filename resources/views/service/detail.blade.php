@@ -30,7 +30,7 @@
                 <ul class="list-unstyled">
                     <li class="text-muted"><i class="fas fa-car"></i> Unit:</li>
                     <li class="text-muted"><span style="color:#5d9fc5 ;">{{ $header->getUnit->plat_number }}</span></li>
-                    <li class="text-muted">{{ $header->getUnit->getType->getBrand->brand_name." ".$header->getUnit->getType->getModel->model_name." ".$header->getUnit->getType->type_name }}</li>
+                    <li class="text-muted">{{ ((empty($header->getUnit->getType->getBrand->brand_name)) ? "" : $header->getUnit->getType->getBrand->brand_name)." ".((empty($header->getUnit->getType->getModel->model_name)) ? "" : $header->getUnit->getType->getModel->model_name)." ".((empty($header->getUnit->getType->type_name)) ? "" : $header->getUnit->getType->type_name) }}</li>
                     <li class="text-muted"></li>
                     <li class="text-muted"> </li>
                 </ul>
@@ -76,7 +76,6 @@
                             <thead style="background-color: rgb(54, 100, 197); color:white">
                                 <th class="text-center" style="width: 5%">No</th>
                                 <th class="text-center">Items</th>
-                                <th class="text-center" style="width: 10%">Satuan</th>
                                 <th class="text-center" style="width: 15%">Jumlah</th>
                                 <th class="text-center" style="width: 15%">Harga</th>
                                 <th class="text-center" style="width: 15%">Sub&nbsp;Total</th>
@@ -87,8 +86,7 @@
                                 <tr>
                                     <td>{{ $nom }}</td>
                                     <td>{{ $parts->getPart->part_name }}</td>
-                                    <td>{{ $parts->getPart->getSatuan->satuan }}</td>
-                                    <td style="text-align: center">{{ $parts->jumlah }}</td>
+                                    <td style="text-align: center">{{ $parts->jumlah }} {{ $parts->getPart->getSatuan->satuan }}</td>
                                     <td style="text-align: right">{{ number_format($parts->harga, 0) }}</td>
                                     <td style="text-align: right">{{ number_format($parts->sub_total, 0) }}</td>
                                 </tr>

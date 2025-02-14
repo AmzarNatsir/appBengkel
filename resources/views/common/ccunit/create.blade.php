@@ -31,7 +31,7 @@
                             <div class="col-md-12 col-lg-12">
                                 <div class="form-group">
                                     <label for="cc_unit">CC Unit</label>
-                                    <input type="text" name="cc_unit" id="cc_unit" class="form-control form-control-sm @error('cc_unit') is-invalid @enderror">
+                                    <input type="text" name="cc_unit" id="cc_unit" class="form-control @error('cc_unit') is-invalid @enderror">
                                     @if ($errors->has('cc_unit'))
                                     <div class="invalid-feedback">{{ $errors->first('cc_unit') }}</div>
                                     @endif

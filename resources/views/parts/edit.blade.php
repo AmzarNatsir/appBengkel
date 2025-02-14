@@ -121,13 +121,13 @@
                             <div class="col-md-12 col-lg-3">
                                 <div class="form-group">
                                     <label for="inp_harga_beli">Harga Beli</label>
-                                    <input type="text" class="form-control form-control-sm angka" name="inp_harga_beli" id="inp_harga_beli" value="{{ $main->harga_beli }}" style="text-align: right" onblur="checkNull(this)" readonly>
+                                    <input type="text" class="form-control form-control-sm angka" name="inp_harga_beli" id="inp_harga_beli" value="{{ $main->harga_beli }}" style="text-align: right" onblur="checkNull(this)">
                                 </div>
                             </div>
                             <div class="col-md-12 col-lg-3">
                                 <div class="form-group">
                                     <label for="inp_harga_jual">Harga Jual</label>
-                                    <input type="text" class="form-control form-control-sm angka" name="inp_harga_jual" id="inp_harga_jual" value="{{ $main->harga_jual }}" style="text-align: right" onblur="checkNull(this)" readonly>
+                                    <input type="text" class="form-control form-control-sm angka" name="inp_harga_jual" id="inp_harga_jual" value="{{ $main->harga_jual }}" style="text-align: right" onblur="checkNull(this)">
                                 </div>
                             </div>
                         </div>

@@ -31,7 +31,7 @@
                             <div class="col-md-12 col-lg-6">
                                 <div class="form-group">
                                     <label for="color_idn">Color (IDN / Indonesia)</label>
-                                    <input type="text" name="color_idn" id="color_idn" class="form-control form-control-sm @error('color_idn') is-invalid @enderror" value="{{ old('color_idn') }}">
+                                    <input type="text" name="color_idn" id="color_idn" class="form-control @error('color_idn') is-invalid @enderror" value="{{ old('color_idn') }}">
                                     @if ($errors->has('color_idn'))
                                     <div class="invalid-feedback">{{ $errors->first('color_idn') }}</div>
                                     @endif
@@ -40,7 +40,7 @@
                             <div class="col-md-12 col-lg-6">
                                 <div class="form-group">
                                     <label for="color_eng">Color (ENG / English)</label>
-                                    <input type="text" name="color_eng" id="color_eng" class="form-control form-control-sm @error('color_eng') is-invalid @enderror" value="{{ old('color_eng') }}">
+                                    <input type="text" name="color_eng" id="color_eng" class="form-control @error('color_eng') is-invalid @enderror" value="{{ old('color_eng') }}">
                                     @if ($errors->has('color_eng'))
                                     <div class="invalid-feedback">{{ $errors->first('color_eng') }}</div>
                                     @endif

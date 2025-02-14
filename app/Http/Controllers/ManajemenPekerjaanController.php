@@ -103,11 +103,18 @@ class ManajemenPekerjaanController extends Controller
 
     public function kategori_pekerjaan_destroy($id)
     {
-        $brand = KategoriPekerjaanModel::find($id);
-        $brand->delete();
-        return response()->json([
-            'success' => true
-        ]);
+        $checkUsed = PekerjaanModel::where('kategori_id', $id)->get()->count();
+        if($checkUsed==0) {
+            $brand = KategoriPekerjaanModel::find($id);
+            $brand->delete();
+            return response()->json([
+                'success' => true
+            ]);
+        } else {
+            return response()->json([
+                'success' => false
+            ]);
+        }
     }
 
     function roles_kategori_pekerjaan($request)
@@ -274,7 +281,7 @@ class ManajemenPekerjaanController extends Controller
     //tools
     public function autocomplete_pekerjaan(Request $request)
     {
-        $query = $request->get('query');
+        $query = $request->get('search');
         $results = PekerjaanModel::with([
             'getKategoriPekerjaan'
         ])

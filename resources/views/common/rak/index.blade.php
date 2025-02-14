@@ -63,13 +63,20 @@
                     url: "{{ url('common/rakDestroy') }}/"+$(el).val(),
                     type: "GET",
                     success:function(response){
-                        swal('Success! The selected data has been successfully deleted!', {
-                            icon: 'success',
-                            buttons: false,
-                            timer: 2000
-                        }).then(() => {
-                            window.location.reload(true);
-                        });
+                        console.log(response.success);
+                        if(response.success==true) {
+                            swal('Success! The selected data has been successfully deleted!', {
+                                icon: 'success',
+                                buttons: false,
+                                timer: 2000
+                            }).then(() => {
+                                window.location.reload(true);
+                            });
+                        } else {
+                            swal('Warning! Selected data failed to delete!', {
+                                icon: 'warning',
+                            });
+                        }
                     }
                 });
             } else {

@@ -7,7 +7,7 @@
             <h6 class="op-7 mb-2">Ppn dan Margin Harga Jual</h6>
         </div>
         <div class="ms-md-auto py-2 py-md-0">
-            <a href="{{ url('common/brand') }}" class="btn btn-primary btn-round">Back</a>
+            <a href="{{ route('pengaturan.ppn_marginhargajual') }}" class="btn btn-success btn-round">Refresh</a>
         </div>
     </div>
     @if (Session::has('status'))
@@ -32,13 +32,13 @@
                             <div class="col-md-12 col-lg-6">
                                 <div class="form-group">
                                     <label for="inp_ppn">Ppn (%)</label>
-                                    <input type="text" name="inp_ppn" id="inp_ppn" class="form-control form-control-sm angka" value="{{ (empty($ppn_margin->ppn)) ? 0 : $ppn_margin->ppn }}">
+                                    <input type="text" name="inp_ppn" id="inp_ppn" class="form-control angka" value="{{ (empty($ppn_margin->ppn)) ? 0 : $ppn_margin->ppn }}">
                                 </div>
                             </div>
                             <div class="col-md-12 col-lg-6">
                                 <div class="form-group">
                                     <label for="inp_margin">Margin Harga Jual (%)</label>
-                                    <input type="text" name="inp_margin" id="inp_margin" class="form-control form-control-sm angka" value="{{ (empty($ppn_margin->margin)) ? 0 : $ppn_margin->margin }}">
+                                    <input type="text" name="inp_margin" id="inp_margin" class="form-control angka" value="{{ (empty($ppn_margin->margin)) ? 0 : $ppn_margin->margin }}">
                                 </div>
                             </div>
                         </div>

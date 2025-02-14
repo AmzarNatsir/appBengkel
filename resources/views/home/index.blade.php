@@ -21,7 +21,7 @@
                     <div class="col col-stats ms-3 ms-sm-0">
                         <div class="numbers">
                         <p class="card-category">Pelanggan</p>
-                        <h4 class="card-title">1,294</h4>
+                        <h4 class="card-title">{{ $total_pelanggan }}</h4>
                         </div>
                     </div>
                     </div>
@@ -41,8 +41,8 @@
                 </div>
                 <div class="col col-stats ms-3 ms-sm-0">
                     <div class="numbers">
-                    <p class="card-category">Parts</p>
-                    <h4 class="card-title">$ 1,345</h4>
+                    <p class="card-category">Stok</p>
+                    <h4 class="card-title">{{ $total_item_stok }} Items</h4>
                     </div>
                 </div>
                 </div>
@@ -62,8 +62,8 @@
                 </div>
                 <div class="col col-stats ms-3 ms-sm-0">
                     <div class="numbers">
-                    <p class="card-category">Order</p>
-                    <h4 class="card-title">576</h4>
+                    <p class="card-category">Order <b>{{ date('M, Y') }}</b></p>
+                    <h4 class="card-title">{{ $total_item_po }} PO</h4>
                     </div>
                 </div>
                 </div>
@@ -83,8 +83,8 @@
                 </div>
                 <div class="col col-stats ms-3 ms-sm-0">
                     <div class="numbers">
-                    <p class="card-category">Sales</p>
-                    <h4 class="card-title">576</h4>
+                    <p class="card-category">Sales <b>{{ date('M, Y') }}</b</p>
+                    <h4 class="card-title">{{ $total_penjualan }}</h4>
                     </div>
                 </div>
                 </div>

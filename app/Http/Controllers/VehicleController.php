@@ -60,7 +60,7 @@ class VehicleController extends Controller
                 $Data['id'] =  $r->id;
                 $Data['oid_vehicle'] =  $r->oid_vehicle;
                 $Data['plat_number'] = $r->plat_number;
-                $Data['unit'] = $r->getType->getBrand->brand_name." ".$r->getType->getModel->model_name." ".$r->getType->type_name;
+                $Data['unit'] = ((empty($r->getType->getBrand->brand_name)) ? "" : $r->getType->getBrand->brand_name)." ".((empty($r->getType->getModel->model_name)) ? "" : $r->getType->getModel->model_name)." ".((empty($r->getType->type_name)) ? "" : $r->getType->type_name);
                 $Data['jenis'] = $r->getJenis->jenis;
                 $Data['color'] = $r->getColor->color_idn;
                 $Data['year'] = $r->year;

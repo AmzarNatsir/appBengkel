@@ -169,7 +169,6 @@ Route::middleware('auth')->group(function ()
      });
      //manajemen stok
      Route::group(['prefix' => 'manajemen_stok'], function(){
-        // Route::group(["prefix" => "parts"], function(){
         Route::get('/', [PartsController::class, 'index'])->name('manajemen_stok.stok.index');
         Route::get('data', [PartsController::class, 'data'])->name('manajemen_stok.stok.data');
         Route::get('create', [PartsController::class, 'create'])->name('manajemen_stok.stok.create');
@@ -178,10 +177,8 @@ Route::middleware('auth')->group(function ()
         Route::get('edit/{id}', [PartsController::class, 'edit'])->name('manajemen_stok.stok.edit');
         Route::put('update/{id}', [PartsController::class, 'update']);
         Route::get('destroy/{id}', [PartsController::class, 'destroy']);
-        // });
         Route::get('kartu_stok', [PartsController::class, 'kartu_stok'])->name('manajemen_stok.kartu_stok.index');
      });
-     //parts
 
 
      //Purchase Order
@@ -223,7 +220,7 @@ Route::middleware('auth')->group(function ()
 
          //list transaksi
         Route::get('daftar', [ServiceController::class, 'daftar'])->name('service.daftar');
-        Route::get('getData', [ServiceController::class, 'getData'])->name('service.data');
+        Route::post('getData', [ServiceController::class, 'getData'])->name('service.data');
         Route::get('detail/{id}', [ServiceController::class, 'show']);
         Route::get('print/{id}', [ServiceController::class, 'print']);
 
@@ -242,5 +239,7 @@ Route::middleware('auth')->group(function ()
 
      Route::group(["prefix" => 'getData'], function(){
         Route::get('data_ppn', [GetDataController::class, 'getPpnValue'])->name('data.ppn');
+        Route::post('getPenerimaanStok', [PenerimaanController::class, 'getPenerimaanStok'])->name('getdata.penerimaan');
+        Route::post('getPenjualanStok', [PenerimaanController::class, 'getPenjualanStok'])->name('getdata.penjualan');
      });
 });

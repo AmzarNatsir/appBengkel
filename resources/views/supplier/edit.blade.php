@@ -32,7 +32,7 @@
                         <div class="col-md-12 col-lg-6">
                             <div class="form-group">
                                 <label for="supplier_name">Supplier Name</label>
-                                <input type="text" name="supplier_name" id="supplier_name" class="form-control form-control-sm @error('supplier_name') is-invalid @enderror" value="{{ $data->supplier_name }}">
+                                <input type="text" name="supplier_name" id="supplier_name" class="form-control @error('supplier_name') is-invalid @enderror" value="{{ $data->supplier_name }}">
                                 @if ($errors->has('supplier_name'))
                                 <div class="invalid-feedback">{{ $errors->first('supplier_name') }}</div>
                                 @endif
@@ -41,7 +41,7 @@
                         <div class="col-md-12 col-lg-6">
                             <div class="form-group">
                                 <label for="supplier_address">Supplier Address</label>
-                                <input type="text" name="supplier_address" id="supplier_address" class="form-control form-control-sm @error('supplier_address') is-invalid @enderror" value="{{ $data->supplier_address }}">
+                                <input type="text" name="supplier_address" id="supplier_address" class="form-control @error('supplier_address') is-invalid @enderror" value="{{ $data->supplier_address }}">
                                 @if ($errors->has('supplier_address'))
                                 <div class="invalid-feedback">{{ $errors->first('supplier_address') }}</div>
                                 @endif
@@ -50,7 +50,7 @@
                         <div class="col-md-12 col-lg-6">
                             <div class="form-group">
                                 <label for="supplier_email">Supplier Email</label>
-                                <input type="text" name="supplier_email" id="supplier_email" class="form-control form-control-sm @error('supplier_email') is-invalid @enderror" value="{{ $data->supplier_email }}">
+                                <input type="text" name="supplier_email" id="supplier_email" class="form-control @error('supplier_email') is-invalid @enderror" value="{{ $data->supplier_email }}">
                                 @if ($errors->has('supplier_email'))
                                 <div class="invalid-feedback">{{ $errors->first('supplier_email') }}</div>
                                 @endif
@@ -59,7 +59,7 @@
                         <div class="col-md-12 col-lg-6">
                             <div class="form-group">
                                 <label for="supplier_phone">Supplier Phone</label>
-                                <input type="text" name="supplier_phone" id="supplier_phone" class="form-control form-control-sm @error('supplier_phone') is-invalid @enderror" value="{{ $data->supplier_phone }}">
+                                <input type="text" name="supplier_phone" id="supplier_phone" class="form-control @error('supplier_phone') is-invalid @enderror" value="{{ $data->supplier_phone }}">
                                 @if ($errors->has('supplier_phone'))
                                 <div class="invalid-feedback">{{ $errors->first('supplier_phone') }}</div>
                                 @endif

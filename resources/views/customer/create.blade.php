@@ -31,7 +31,7 @@
                             <div class="col-md-12 col-lg-6">
                                 <div class="form-group">
                                     <label for="customer_name">Customer Name</label>
-                                    <input type="text" name="customer_name" id="customer_name" class="form-control form-control-sm @error('customer_name') is-invalid @enderror" value="{{ old('customer_name') }}">
+                                    <input type="text" name="customer_name" id="customer_name" class="form-control @error('customer_name') is-invalid @enderror" value="{{ old('customer_name') }}">
                                     @if ($errors->has('customer_name'))
                                     <div class="invalid-feedback">{{ $errors->first('customer_name') }}</div>
                                     @endif
@@ -40,7 +40,7 @@
                             <div class="col-md-12 col-lg-6">
                                 <div class="form-group">
                                     <label for="customer_address">Customer Address</label>
-                                    <input type="text" name="customer_address" id="customer_address" class="form-control form-control-sm @error('customer_address') is-invalid @enderror" value="{{ old('customer_address') }}">
+                                    <input type="text" name="customer_address" id="customer_address" class="form-control @error('customer_address') is-invalid @enderror" value="{{ old('customer_address') }}">
                                     @if ($errors->has('customer_address'))
                                     <div class="invalid-feedback">{{ $errors->first('customer_address') }}</div>
                                     @endif
@@ -49,7 +49,7 @@
                             <div class="col-md-12 col-lg-6">
                                 <div class="form-group">
                                     <label for="customer_email">Customer Email</label>
-                                    <input type="text" name="customer_email" id="customer_email" class="form-control form-control-sm @error('customer_email') is-invalid @enderror" value="{{ old('customer_email') }}">
+                                    <input type="text" name="customer_email" id="customer_email" class="form-control @error('customer_email') is-invalid @enderror" value="{{ old('customer_email') }}">
                                     @if ($errors->has('customer_email'))
                                     <div class="invalid-feedback">{{ $errors->first('customer_email') }}</div>
                                     @endif
@@ -58,7 +58,7 @@
                             <div class="col-md-12 col-lg-6">
                                 <div class="form-group">
                                     <label for="customer_phone">Customer Phone</label>
-                                    <input type="text" name="customer_phone" id="customer_phone" class="form-control form-control-sm @error('customer_phone') is-invalid @enderror" value="{{ old('customer_phone') }}">
+                                    <input type="text" name="customer_phone" id="customer_phone" class="form-control @error('customer_phone') is-invalid @enderror" value="{{ old('customer_phone') }}">
                                     @if ($errors->has('customer_phone'))
                                     <div class="invalid-feedback">{{ $errors->first('customer_phone') }}</div>
                                     @endif

@@ -50,7 +50,7 @@
         <table width="100%">
             <tr>
                 <td align="left" style="width: 50%;">
-                <img src="{{ public_path('assets/img/logo_app.jpg') }}" alt="Logo" width="100px" height="auto" class="logo"/>
+                <img src="{{ public_path('assets/img/logo_new.png') }}" alt="Logo" width="100px" height="auto" class="logo"/>
                 </td>
                 <td align="right" style="width: 50%;">
                     <h2>PATTALLASSANG VARIASI</h2>
@@ -77,7 +77,7 @@
         </tr>
         <tr>
             <td>{{ $header->getUnit->getCustomer->customer_address }}</td>
-            <td rowspan="2" style="vertical-align: top">{{ $header->getUnit->getType->getBrand->brand_name." ".$header->getUnit->getType->getModel->model_name." ".$header->getUnit->getType->type_name }}</td>
+            <td rowspan="2" style="vertical-align: top">{{ ((empty($header->getUnit->getType->getBrand->brand_name)) ? "" : $header->getUnit->getType->getBrand->brand_name)." ".((empty($header->getUnit->getType->getModel->model_name)) ? "" : $header->getUnit->getType->getModel->model_name)." ".((empty($header->getUnit->getType->type_name)) ? "" : $header->getUnit->getType->type_name) }}</td>
         </tr>
         <tr>
             <td>{{ $header->getUnit->getCustomer->customer_email }}</td>
@@ -124,7 +124,6 @@
         <thead>
             <th class="text-center" style="width: 5%">No</th>
             <th class="text-center">Items</th>
-            <th class="text-center" style="width: 10%">Satuan</th>
             <th class="text-center" style="width: 15%">Jumlah</th>
             <th class="text-center" style="width: 15%">Harga</th>
             <th class="text-center" style="width: 15%">Sub&nbsp;Total</th>
@@ -135,8 +134,7 @@
             <tr>
                 <td>{{ $nom }}</td>
                 <td>{{ $parts->getPart->part_name }}</td>
-                <td>{{ $parts->getPart->getSatuan->satuan }}</td>
-                <td style="text-align: center">{{ $parts->jumlah }}</td>
+                <td style="text-align: center">{{ $parts->jumlah }} {{ $parts->getPart->getSatuan->satuan }}</td>
                 <td style="text-align: right">{{ number_format($parts->harga, 0) }}</td>
                 <td style="text-align: right">{{ number_format($parts->sub_total, 0) }}</td>
             </tr>

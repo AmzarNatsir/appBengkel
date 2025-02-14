@@ -26,7 +26,7 @@ trait GenerateOid
         {
             $kode = "BR-";
             $nom = 1;
-            $result = BrandModel::orderBy('created_at', 'desc')->first();
+            $result = BrandModel::orderBy('id', 'desc')->first();
             if(empty($result->oid_brand)) {
                 $oidNew = $kode.sprintf('%03s', $nom);
             } else {
@@ -38,7 +38,7 @@ trait GenerateOid
         {
             $kode = "ML-";
             $nom = 1;
-            $result = ModelBrandModel::orderBy('created_at', 'desc')->first();
+            $result = ModelBrandModel::orderBy('id', 'desc')->first();
             if(empty($result->oid_model)) {
                 $oidNew = $kode.sprintf('%03s', $nom);
             } else {
@@ -50,7 +50,7 @@ trait GenerateOid
         {
             $kode = "TU-";
             $nom = 1;
-            $result = TypeModel::orderBy('created_at', 'desc')->first();
+            $result = TypeModel::orderBy('id', 'desc')->first();
             if(empty($result->oid_type)) {
                 $oidNew = $kode.sprintf('%03s', $nom);
             } else {
@@ -62,7 +62,7 @@ trait GenerateOid
         {
             $kode = "CC-";
             $nom = 1;
-            $result = CCUnitModel::orderBy('created_at', 'desc')->first();
+            $result = CCUnitModel::orderBy('id', 'desc')->first();
             if(empty($result->oid_ccunit)) {
                 $oidNew = $kode.sprintf('%03s', $nom);
             } else {
@@ -74,7 +74,7 @@ trait GenerateOid
         {
             $kode = "CL-";
             $nom = 1;
-            $result = ColorModel::orderBy('created_at', 'desc')->first();
+            $result = ColorModel::orderBy('id', 'desc')->first();
             if(empty($result->oid_color)) {
                 $oidNew = $kode.sprintf('%03s', $nom);
             } else {
@@ -86,7 +86,7 @@ trait GenerateOid
         {
             $kode = "JS-";
             $nom = 1;
-            $result = JenisModel::orderBy('created_at', 'desc')->first();
+            $result = JenisModel::orderBy('id', 'desc')->first();
             if(empty($result->oid_jenis)) {
                 $oidNew = $kode.sprintf('%03s', $nom);
             } else {
@@ -98,7 +98,7 @@ trait GenerateOid
         {
             $kode = "ST-";
             $nom = 1;
-            $result = SatuanModel::orderBy('created_at', 'desc')->first();
+            $result = SatuanModel::orderBy('id', 'desc')->first();
             if(empty($result->oid_satuan)) {
                 $oidNew = $kode.sprintf('%03s', $nom);
             } else {
@@ -110,7 +110,7 @@ trait GenerateOid
         {
             $kode = "CS-";
             $nom = 1;
-            $result = CustomerModel::orderBy('created_at', 'desc')->first();
+            $result = CustomerModel::orderBy('id', 'desc')->first();
             if(empty($result->oid_customer)) {
                 $oidNew = $kode.sprintf('%03s', $nom);
             } else {
@@ -122,7 +122,7 @@ trait GenerateOid
         {
             $kode = "SP-";
             $nom = 1;
-            $result = SupplierModel::orderBy('created_at', 'desc')->first();
+            $result = SupplierModel::orderBy('id', 'desc')->first();
             if(empty($result->oid_supplier)) {
                 $oidNew = $kode.sprintf('%03s', $nom);
             } else {
@@ -134,7 +134,7 @@ trait GenerateOid
         {
             $kode = "VH-";
             $nom = 1;
-            $result = VehicleModel::orderBy('created_at', 'desc')->first();
+            $result = VehicleModel::orderBy('id', 'desc')->first();
             if(empty($result->oid_vehicle)) {
                 $oidNew = $kode.sprintf('%03s', $nom);
             } else {
@@ -146,7 +146,7 @@ trait GenerateOid
         {
             $kode = "PR-";
             $nom = 1;
-            $result = PartsModel::orderBy('created_at', 'desc')->first();
+            $result = PartsModel::orderBy('id', 'desc')->first();
             if(empty($result->oid_part)) {
                 $oidNew = $kode.sprintf('%03s', $nom);
             } else {
@@ -158,7 +158,7 @@ trait GenerateOid
         {
             $kode = "PO-";
             $nom = 1;
-            $result = PurchaseOrderModel::orderBy('created_at', 'desc')->first();
+            $result = PurchaseOrderModel::orderBy('id', 'desc')->first();
             if(empty($result->po_number)) {
                 $oidNew = $kode.sprintf('%03s', $nom);
             } else {
@@ -170,7 +170,7 @@ trait GenerateOid
         {
             $kode = "RV-";
             $nom = 1;
-            $result = ReceiveModel::orderBy('created_at', 'desc')->first();
+            $result = ReceiveModel::orderBy('id', 'desc')->first();
             if(empty($result->nomor_receive)) {
                 $oidNew = $kode.sprintf('%03s', $nom);
             } else {
@@ -183,7 +183,7 @@ trait GenerateOid
         {
             $kode = "INV-";
             $nom = 1;
-            $result = ServiceModel::orderBy('created_at', 'desc')->first();
+            $result = ServiceModel::orderBy('id', 'desc')->first();
             if(empty($result->no_service)) {
                 $oidNew = $kode.sprintf('%03s', $nom);
             } else {

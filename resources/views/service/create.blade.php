@@ -49,7 +49,7 @@
         </div>
     </div>
     @include('additional.alert')
-    <form action="{{ route('service.store') }}" method="POST" id="myForm">
+    <form method="POST" id="myForm">
     @csrf
     <div class="row">
         <div class="col-lg-12">
@@ -59,7 +59,7 @@
                         <div class="col-md-12 col-lg-2 p-0">
                             <div class="form-group">
                                 <label for="receive_date">Tanggal Service</label>
-                                <input type="date" class="form-control form-control-sm @error('tgl_service') is-invalid @enderror" name="tgl_service" id="tgl_service" value="{{ date('Y-m-d') }}">
+                                <input type="date" class="form-control form-control-sm @error('tgl_service') is-invalid @enderror" name="tgl_service" id="tgl_service" value="{{ date('Y-m-d') }}" required>
                                 @if ($errors->has('tgl_service'))
                                 <div class="invalid-feedback">{{ $errors->first('tgl_service') }}</div>
                                 @endif
@@ -68,10 +68,10 @@
                         <div class="col-md-12 col-lg-5 p-0">
                             <div class="form-group">
                                 <label for="unit_select">Unit</label>
-                                <select class="form-select @error('unit_select') is-invalid @enderror" name="unit_select" id="unit_select" style="width: 100%">
+                                <select class="form-select @error('unit_select') is-invalid @enderror" name="unit_select" id="unit_select" style="width: 100%" required>
                                     <option value=""></option>
                                     @foreach ($unit as $unit)
-                                    <option value="{{ $unit->id }}">{{ $unit->plat_number }} - {{ $unit->getType->getBrand->brand_name." ".$unit->getType->getModel->model_name." ".$unit->getType->type_name }}</option>
+                                    <option value="{{ $unit->id }}">{{ $unit->plat_number }} - {{ (empty($unit->getType->getBrand->brand_name)) ? "" : $unit->getType->getBrand->brand_name }} {{ (empty($unit->getType->getModel->model_name)) ? "" : $unit->getType->getModel->model_name }} {{ (empty($unit->getType->type_name)) ? "" : $unit->getType->type_name }}</option>
                                     @endforeach
                                 </select>
                                 @if ($errors->has('unit_select'))
@@ -88,7 +88,7 @@
                         <div class="col-md-12 col-lg-12 p-0">
                             <div class="form-group">
                                 <label for="inp_deskripsi">Deskripsi Service</label>
-                                <textarea name="inp_deskripsi" id="inp_deskripsi" class="form-control form-control-sm @error('inp_deskripsi') is-invalid @enderror"></textarea>
+                                <textarea name="inp_deskripsi" id="inp_deskripsi" class="form-control form-control-sm @error('inp_deskripsi') is-invalid @enderror" required></textarea>
                                 @if ($errors->has('inp_deskripsi'))
                                 <div class="invalid-feedback">{{ $errors->first('inp_deskripsi') }}</div>
                                 @endif
@@ -165,6 +165,7 @@
                                                 <thead style="background-color: rgb(54, 100, 197); color:white">
                                                     <th class="text-center" style="width: 5%">No</th>
                                                     <th class="text-center">Items</th>
+                                                    <th class="text-center" style="width: 10%">Stok Tersedia</th>
                                                     <th class="text-center" style="width: 10%">Satuan</th>
                                                     <th class="text-center" style="width: 15%">Jumlah</th>
                                                     <th class="text-center" style="width: 15%">Harga</th>
@@ -254,6 +255,7 @@
     </div>
     </form>
 </div>
+
 <script>
     $(document).ready(function () {
         window.setTimeout(function () { $(".alert-success").alert('close'); }, 2000);
@@ -310,7 +312,13 @@
                     var sisa_stok = ui.item.stok_akhir;
                     var sub_total_def = ui.item.harga_jual * 1;
                     $("#inputSearch").val(ui.item.label);
-                    var content_item = '<tr class="rows_item" name="rows_item_part[]"><td><input type="hidden" name="id_row_part[]" value=""><input type="hidden" name="current_stok[]" value='+sisa_stok+'><button type="button" title="Hapus Baris" class="btn btn-danger btn-sm waves-effect waves-light" onclick="hapus_item(this)"><i class="fa fa-minus"></i></button></td>'+'<td><input type="hidden" name="part_id[]" value="'+ui.item.value+'"><label style="color: blue; font-size: 11pt">'+ui.item.part_name+'</label></td>'+'<td style="text-align: center"><label style="color: blue; font-size: 11pt">'+ui.item.satuan+'</label></td>'+'<td align="center"><div class="input-group"><span class="input-group-btn"><button type="button" class="btn btn-sm btn-primary" name="tbl_minus[]" onClick="min_qty(this)"><i class="fa fa-minus"></i></button></span><input type="number" min="1" max="'+sisa_stok+'" id="part_qty[]" name="part_qty[]" class="form-control form-control-sm" value="1" style="text-align:center" readonly><span class="input-group-btn"><button type="button" class="btn btn-sm btn-primary" name="tbl_plus[]" onClick="add_qty(this)"><i class="fa fa-plus"></i></button></span></div></td>'+'<td class="text-right"><input type="text" class="form-control form-control-sm angka" id="harga_satuan[]" name="harga_satuan[]" value="'+ui.item.harga_jual+'" style="text-align: right" onInput=hitungSubTotal(this)></td>'+'<td class="text-right"><input type="text" name="part_sub_total[]" value="'+sub_total_def+'" class="form-control form-control-sm text-right angka" style="text-align: right" readonly></td>'+'</tr>';
+                    var content_item = '<tr class="rows_item" name="rows_item_part[]"><td><input type="hidden" name="id_row_part[]" value=""><input type="hidden" name="current_stok[]" value='+sisa_stok+'><button type="button" title="Hapus Baris" class="btn btn-danger btn-sm waves-effect waves-light" onclick="hapus_item(this)"><i class="fa fa-minus"></i></button></td>'+
+                        '<td><input type="hidden" name="part_id[]" value="'+ui.item.value+'"><label style="color: blue; font-size: 11pt">'+ui.item.part_name+'</label></td>'+
+                        '<td style="text-align: center"><label style="color: blue; font-size: 11pt">'+sisa_stok+'</label></td>'+
+                        '<td style="text-align: center"><label style="color: blue; font-size: 11pt">'+ui.item.satuan+'</label></td>'+
+                        '<td align="center"><input type="number" min="1" max="'+sisa_stok+'" id="part_qty[]" name="part_qty[]" class="form-control form-control-sm angka" value="1" style="text-align:center" onblur="calculateSubTotal(this)"></td>'+
+                        '<td class="text-right"><input type="text" class="form-control form-control-sm angka" id="harga_satuan[]" name="harga_satuan[]" value="'+ui.item.harga_jual+'" style="text-align: right" onInput=hitungSubTotal(this)></td>'+
+                        '<td class="text-right"><input type="text" name="part_sub_total[]" value="'+sub_total_def+'" class="form-control form-control-sm text-right angka" style="text-align: right" readonly></td>'+'</tr>';
                     $(".row_detail").after(content_item);
                     $('.angka').number( true, 0 );
                     $("#inputSearch").val("");
@@ -399,47 +407,22 @@
             $(el).val("0");
         }
     }
-
-    var add_qty = function(el)
+    var calculateSubTotal = function(el)
     {
-        var sisa_stok = $(el).parent().parent().find('input[name="current_stok[]"]');
-        var input = $(el).parent().parent().find('input[name="part_qty[]"]'),
-            min = input.attr("min"),
-            max = input.attr("max");
-        var oldValue = parseFloat(input.val());
-        if (oldValue >= max) {
-          var newVal = oldValue;
-        } else {
-          var newVal = oldValue + 1;
+        if($(el).val()=="")
+        {
+            $(el).val("1");
         }
-        // input.val(newVal);
-        $(el).parent().parent().find('input[name="part_qty[]"]').val(newVal);
+        cekStokTersedia(el);
         hitungSubTotal(el);
-        // hitung_total_net();
     }
 
-    var min_qty = function(el)
-    {
-        var input = $(el).parent().parent().find('input[name="part_qty[]"]'),
-            min = input.attr("min"),
-            max = input.attr("max");
-        var oldValue = parseFloat(input.val());
-        if (oldValue <= min) {
-          var newVal = oldValue;
-        } else {
-          var newVal = oldValue - 1;
-        }
-        //input.val(newVal);
-        $(el).parent().parent().find('input[name="part_qty[]"]').val(newVal);
-        hitungSubTotal(el);
-        // hitung_total_net();
-    }
     var hitungSubTotal = function(el){
         var currentRow=$(el).closest("tr");
         var jumlah = $(el).parent().parent().find('input[name="part_qty[]"]').val();
-        var harga = currentRow.find('td:eq(4) input[name="harga_satuan[]"]').val();
+        var harga = currentRow.find('td:eq(5) input[name="harga_satuan[]"]').val();
         var sub_total = parseFloat(jumlah) * parseFloat(harga);
-        currentRow.find('td:eq(5) input[name="part_sub_total[]"]').val(sub_total);
+        currentRow.find('td:eq(6) input[name="part_sub_total[]"]').val(sub_total);
         total_parts();
         // hitung_total();
     }
@@ -483,6 +466,29 @@
         hitung_total_net();
     }
 
+    function cekStokTersedia(el)
+    {
+        var currentRow=$(el).closest("tr");
+        var currentStock = $(el).parent().parent().find('input[name="current_stok[]"]').val();
+        var jumlah = $(el).parent().parent().find('input[name="part_qty[]"]').val();
+        if(parseFloat(jumlah) > parseFloat(currentStock))
+        {
+            swal({
+                title: "Maaf. Persediaan Stok tidak cukup..!",
+                type: "warning",
+                buttons: {
+                    cancel: {
+                        text: "Close !",
+                        visible: true,
+                        className: "btn btn-danger",
+                    },
+                },
+            });
+            $(el).val("1");
+            return false;
+        }
+    }
+
     function hitung_total()
     {
         var total_parts = $("#inp_total_parts").val();
@@ -502,6 +508,10 @@
 
     function hapus_teks_total()
     {
+        $("#tgl_service").val(toDay());
+        $("#unit_select").val("");
+        $("#inp_customer").val("");
+        $("#inp_deskripsi").val("");
         $("#inp_total_pekerjaan").val('0');
         $("#inp_total_parts").val('0');
         $("#inp_total_a_b").val("0");
@@ -533,6 +543,15 @@
         });
 
     }
+    function toDay()
+    {
+        var today = new Date();
+        var dd = String(today.getDate()).padStart(2, '0');
+        var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+        var yyyy = today.getFullYear();
+        today = mm + '/' + dd + '/' + yyyy;
+        return today;
+    }
 
     document.querySelector('#myForm').addEventListener('submit', function(event) {
         event.preventDefault(); // Prevent the form from submitting
@@ -553,13 +572,36 @@
         }).then((result) => {
             // alert(result);
             if (result==true) {
+                event.preventDefault();
+                var formData = $(this).serialize();
+                $.ajax({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    type: "POST",
+                    url: "{{ route('service.store') }}",
+                    data:formData,
+                    dataType: 'json',
+                    // contentType: false,
+                    // cache: false,
+                    // processData: false,
+                    success: function(response) {
+                        goPrint(response.LastID);
+                        location.reload();
+                    }
+                });
                 // If the user confirms, submit the form
-                this.submit();
+                // this.submit;
             } else {
                 swal.close();
             }
         });
     });
+    var goPrint = function(id_trans)
+    {
+        var myWindow = window.open("{{ url('service/print') }}/"+id_trans, "_blank", "scrollbars=yes,width=400,height=500,top=300");
+        myWindow.focus();
+    }
 </script>
 @endsection
 

@@ -32,7 +32,7 @@
                             <div class="col-md-12 col-lg-12">
                                 <div class="form-group">
                                     <label for="jenis">Jenis</label>
-                                    <input type="text" name="jenis" id="jenis" class="form-control form-control-sm @error('jenis') is-invalid @enderror" value="{{ $data->jenis }}">
+                                    <input type="text" name="jenis" id="jenis" class="form-control @error('jenis') is-invalid @enderror" value="{{ $data->jenis }}">
                                     @if ($errors->has('jenis'))
                                     <div class="invalid-feedback">{{ $errors->first('jenis') }}</div>
                                     @endif

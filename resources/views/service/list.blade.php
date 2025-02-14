@@ -14,28 +14,58 @@
         </div>
     </div>
     <div class="row">
-        <div class="card">
-            <div class="card-body">
-                <div class="row table-responsive">
-                    <table class="table list_data nowrap" style="width:100%">
-                    <thead>
-                        <tr>
-                            <th width="5%">No</th>
-                            <th width="10%">No.Service</th>
-                            <th width="10%">Tgl.Service</th>
-                            <th>Customer</th>
-                            <th width="10%">No. Polisi</th>
-                            <th width="10%">Unit</th>
-                            <th width="10%">Total Pekerjaan</th>
-                            <th width="10%">Total Parts</th>
-                            <th width="15%">Diskon</th>
-                            <th width="15%">Ppn</th>
-                            <th width="15%">Total Net</th>
-                            <th width="15%">Action</th>
-                        </tr>
-                    </thead>
-                    <tbody></tbody>
-                    </table>
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">Filter</div>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-12 col-lg-12">
+                            <div class="form-group">
+                                <label for="receive_date">Tanggal Awal</label>
+                                <input type="date" class="form-control" name="tgl_awal" id="tgl_awal" value="{{ date('Y-m-d') }}">
+                            </div>
+                            <div class="form-group">
+                                <label for="receive_date">Tanggal Akhir</label>
+                                <input type="date" class="form-control" name="tgl_akhir" id="tgl_akhir" value="{{ date('Y-m-d') }}">
+                            </div>
+                            <div class="form-group">
+                                <button type="button" class="btn btn-success" name="btnFilter" id="btnFilter"><i class="fa fa-search"></i> FILTER</button>
+                                <button type="button" class="btn btn-danger" name="btnExcel" id="btnExcel"><i class="fa fa-table"></i> EXCEL</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-9">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">Data</div>
+                </div>
+                <div class="card-body">
+                    <div class="row table-responsive">
+                        <table class="table list_data nowrap" id="list_data" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th width="5%">No</th>
+                                <th width="10%">Action</th>
+                                <th width="10%">No.Service</th>
+                                <th width="10%">Tgl.Service</th>
+                                <th>Customer</th>
+                                <th width="10%">No. Polisi</th>
+                                <th width="10%">Unit</th>
+                                <th width="10%">Total Pekerjaan</th>
+                                <th width="10%">Total Parts</th>
+                                <th width="15%">Diskon</th>
+                                <th width="15%">Ppn</th>
+                                <th width="15%">Total Net</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
@@ -51,14 +81,62 @@
 <script>
     $(document).ready(function () {
         window.setTimeout(function () { $(".alert-success").alert('close'); }, 2000);
-        $('.list_data').DataTable().destroy();
+        $('#list_data').DataTable().destroy();
+        // var tableAjax = new DataTable('#list_data', {
+        //     ajax: {
+        //         url: "{{ route('service.data') }}",
+        //         type: "post",
+        //         headers: {
+        //             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        //         },
+        //         data: function (d)
+        //         {
+        //             d.tgl_awal = $("#tgl_awal").val();
+        //             d.tgl_akhir = $('#tgl_awal').val();
+        //         }
+        //     },
+        //     processing: true,
+        //     serverSide: true,
+        //     autoWidth: true,
+        //     columns: [
+        //         { data: 'no' },
+        //         { data: 'act' },
+        //         { data: 'no_service' },
+        //         { data: 'tgl_service' },
+        //         { data: 'customer' },
+        //         { data: 'no_polisi' },
+        //         { data: 'unit' },
+        //         { data: 't_pekerjaan' },
+        //         { data: 't_parts' },
+        //         { data: 'diskon' },
+        //         { data: 'ppn' },
+        //         { data: 't_net' }
+        //     ],
+        //     responsive: true,
+        // });
+        // $("#btnFilter").on("click", function(){
+        //     tableAjax.draw();
+        // });
+
         $(".list_data").DataTable({
-            ajax: "{{ route('service.data') }}",
+            ajax: {
+                url: "{{ route('service.data') }}",
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                type: "post",
+                data: function (d)
+                {
+                    d.tgl_awal = $("#tgl_awal").val();
+                    d.tgl_akhir = $('#tgl_awal').val();
+                }
+            },
             processing: true,
             serverSide: true,
             autoWidth: true,
             columns: [
                 { data: 'no' },
+                { data: 'act' },
                 { data: 'no_service' },
                 { data: 'tgl_service' },
                 { data: 'customer' },
@@ -68,8 +146,7 @@
                 { data: 't_parts' },
                 { data: 'diskon' },
                 { data: 'ppn' },
-                { data: 't_net' },
-                { data: 'act' }
+                { data: 't_net' }
             ],
             responsive: true,
             // select: true
